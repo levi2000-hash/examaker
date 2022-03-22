@@ -39,16 +39,39 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Examator - AP Hogeschool"),
         centerTitle: true,
       ),
+      //Login for main page
       body: Center(
-        child: TextButton(
-          onPressed: () {},
-          child: const Text("Login"),
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.all(16.0),
-            primary: Colors.black,
-            textStyle: const TextStyle(fontSize: 20),
-            backgroundColor: Colors.amber,
-          ),
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter username/email',
+                    labelText: "username"),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter password',
+                    labelText: "password"),
+                obscureText: true,
+              ),
+            ),
+            TextButton(
+                onPressed: () {},
+                child: const Text("Login"),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(16.0),
+                  primary: Colors.black,
+                  textStyle: const TextStyle(fontSize: 20),
+                  backgroundColor: Colors.amber,
+                )),
+          ],
         ),
       ),
     );
