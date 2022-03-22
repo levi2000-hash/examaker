@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        //Set main color theme
         primarySwatch: Colors.amber,
       ),
       home: const MyHomePage(),
@@ -63,7 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MainPage()));
+                },
                 child: const Text("Login"),
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.all(16.0),
@@ -74,6 +80,43 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  double WIDTH = 60;
+  double HEIGHT = 40;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Examen Java"),
+      ),
+      body: Column(children: [
+        //Vraag 1
+        Container(
+          child: Column(
+            children: [
+              Container(
+                width: WIDTH,
+                height: HEIGHT,
+                child: const Text("Vraag 1"),
+              ),
+              TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), hintText: "Enter answer"))
+            ],
+          ),
+        )
+      ]),
     );
   }
 }
