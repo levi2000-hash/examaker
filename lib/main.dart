@@ -92,8 +92,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  double WIDTH = 60;
-  double HEIGHT = 40;
+  final bool _completed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,21 +101,39 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Column(children: [
         //Vraag 1
-        Container(
-          child: Column(
-            children: [
-              Container(
-                width: WIDTH,
-                height: HEIGHT,
-                child: const Text("Vraag 1"),
-              ),
-              TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), hintText: "Enter answer"))
-            ],
-          ),
-        )
+        OpenExamenVraag("vraag 1"),
+        OpenExamenVraag("Vraag 2")
       ]),
+      floatingActionButton: const FloatingActionButton(
+        onPressed: null,
+        child: Icon(Icons.check),
+      ),
+    );
+  }
+}
+
+class OpenExamenVraag extends StatelessWidget {
+  OpenExamenVraag(this.vraag);
+
+  final String vraag;
+
+  @override
+  Widget build(BuildContext context) {
+    const double width = 60;
+    const double height = 40;
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            width: width,
+            height: height,
+            child: Text("$vraag"),
+          ),
+          const TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), hintText: "Enter answer"))
+        ],
+      ),
     );
   }
 }
