@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "8872769440",
+    "project_id": "examakerdb",
+    "storage_bucket": "examakerdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8872769440:android:39b88149b26b2e669916c5",
+        "android_client_info": {
+          "package_name": "com.example.examaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8872769440-e1mdqmqam77ssup150pvfs71edjq248l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCmEMyad8E1QYIRuXLt_L-jHSmkftrzrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8872769440-e1mdqmqam77ssup150pvfs71edjq248l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "8872769440-ksotnp7h3bmevcmlq15913ir9hcfh8tj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.flutter.flutter.ap"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
