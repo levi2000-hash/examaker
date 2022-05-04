@@ -1,17 +1,19 @@
+import 'package:examaker/adminHome.dart';
 import 'package:examaker/main.dart';
+import 'package:examaker/studentHome.dart';
 import 'package:examaker/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'auth.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class AdminLoginPage extends StatefulWidget {
+  const AdminLoginPage({Key? key}) : super(key: key);
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AdminLoginPage> createState() => _AdminLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AdminLoginPageState extends State<AdminLoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -35,11 +37,13 @@ class _LoginPageState extends State<LoginPage> {
         body: Form(
           key: _formKey,
           child: Column(children: <Widget>[
+            Text("Username"),
             TextFormField(
               controller: usernameController,
               validator: (value) => Validator.validateEmail(email: value),
             ),
             const SizedBox(height: 8.0),
+            Text("Password"),
             TextFormField(
               controller: passwordController,
               obscureText: true,
@@ -52,8 +56,15 @@ class _LoginPageState extends State<LoginPage> {
                         email: usernameController.text,
                         password: passwordController.text);
                     if (user != null) {
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => MainPage()));
+                      if(user.email == "testadmin@ap.be"){
+                          Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => AdminHome()));
+                      }
+                      else if(user.email == "test@ap.be"){
+                          Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => StudentHome()));
+                      }
+                      
                     }
                   }
                 },
