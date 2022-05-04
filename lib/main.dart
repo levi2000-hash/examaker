@@ -1,8 +1,10 @@
-import 'package:examaker/login.dart';
+import 'package:examaker/adminLogin.dart';
+import 'package:examaker/examenPage.dart';
+import 'package:examaker/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'login.dart';
+import 'adminLogin.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,43 +22,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Examaker',
       theme: ThemeData(
         //Set main color theme
         primarySwatch: Colors.amber,
       ),
-      home: const LoginPage(),
+      home: const HomePage(),
     );
   }
 }
 
-class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
 
-  @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  final bool _completed = false;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Examen Java"),
-      ),
-      body: Column(children: [
-        //Vraag 1
-        OpenExamenVraag("vraag 1"),
-        OpenExamenVraag("Vraag 2")
-      ]),
-      floatingActionButton: const FloatingActionButton(
-        onPressed: null,
-        child: Icon(Icons.check),
-      ),
-    );
-  }
-}
 
 class OpenExamenVraag extends StatelessWidget {
   OpenExamenVraag(this.vraag);

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'examenPage.dart';
 import 'main.dart';
 
 class StudentHome extends StatelessWidget {
