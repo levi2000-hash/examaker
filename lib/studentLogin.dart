@@ -16,8 +16,8 @@ class StudentLoginPage extends StatefulWidget {
 
 class _StudentLoginPageState extends State<StudentLoginPage> {
   final usernameController = TextEditingController();
-  Map<String, dynamic> data = Map<String, dynamic>();
   final _formKey = GlobalKey<FormState>();
+  var data = null;
 
   //Dispose of controller when widget dissapears
   @override
@@ -43,25 +43,23 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
               validator: (value) => Validator.validateEmail(email: value),
             ),
             ElevatedButton(
-                onPressed: () async {
-                  checkEmail();
-                },
+                onPressed: () => {
+                      FirebaseFirestore.instance
+                          .collection("students")
+                          .doc(usernameController.text)
+                          .get()
+                          .then((value) => {
+                                if (value.exists)
+                                  {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                StudentHome()))
+                                  }
+                              })
+                    },
                 child: const Text('Log in'))
           ]),
         ));
-  }
-  checkEmail(){
-    FirebaseFirestore instance = FirebaseFirestore.instance;
-    instance.collection('students')
-      .doc(usernameController.text)
-      .get()
-      .then((DocumentSnapshot snapshot) => {
-          data = snapshot.data() as Map<String, dynamic>,
-          if(data['email'] == usernameController.text){
-              Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => StudentHome()))
-          }
-        }
-      );
   }
 }
