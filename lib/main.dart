@@ -1,10 +1,10 @@
-import 'package:examaker/adminLogin.dart';
+import 'package:examaker/admin_login.dart';
 import 'package:examaker/examenPage.dart';
 import 'package:examaker/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'adminLogin.dart';
+import 'admin_login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,8 +32,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 class OpenExamenVraag extends StatelessWidget {
   OpenExamenVraag(this.vraag);
 
@@ -59,5 +57,3 @@ class OpenExamenVraag extends StatelessWidget {
     );
   }
 }
-
-

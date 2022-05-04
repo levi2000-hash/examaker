@@ -1,11 +1,10 @@
-import 'package:examaker/adminHome.dart';
-import 'package:examaker/main.dart';
 import 'package:examaker/studentHome.dart';
 import 'package:examaker/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'auth.dart';
+import 'adminHome.dart';
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({Key? key}) : super(key: key);
@@ -37,13 +36,13 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
         body: Form(
           key: _formKey,
           child: Column(children: <Widget>[
-            Text("Username"),
+            const Text("Username"),
             TextFormField(
               controller: usernameController,
               validator: (value) => Validator.validateEmail(email: value),
             ),
             const SizedBox(height: 8.0),
-            Text("Password"),
+            const Text("Password"),
             TextFormField(
               controller: passwordController,
               obscureText: true,
@@ -56,15 +55,8 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                         email: usernameController.text,
                         password: passwordController.text);
                     if (user != null) {
-                      if(user.email == "testadmin@ap.be"){
-                          Navigator.of(context).pushReplacement(
+                      Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => AdminHome()));
-                      }
-                      else if(user.email == "test@ap.be"){
-                          Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => StudentHome()));
-                      }
-                      
                     }
                   }
                 },
