@@ -1,3 +1,4 @@
+import 'package:examaker/createExam.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,11 @@ class AdminHome extends StatelessWidget {
                     backgroundColor: Colors.amber,
                   )),
               TextButton(
-                  onPressed: null,
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => createExam() 
+                      ));
+                  },
                   child: const Text("Examen maken"),
                   style: TextButton.styleFrom(
                     primary: Colors.black,
