@@ -1,3 +1,4 @@
+import 'package:examaker/admin_studentOverview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,10 @@ class AdminHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextButton(
-                  onPressed: null,
+                  onPressed: () => {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => const StudentOverview()))
+                      },
                   child: const Text("Studenten"),
                   style: TextButton.styleFrom(
                     primary: Colors.black,

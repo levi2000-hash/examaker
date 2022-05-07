@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "8872769440",
-    "project_id": "examakerdb",
-    "storage_bucket": "examakerdb.appspot.com"
+    "project_number": "300050023025",
+    "project_id": "examaker-5cf4b",
+    "storage_bucket": "examaker-5cf4b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:8872769440:android:39b88149b26b2e669916c5",
+        "mobilesdk_app_id": "1:300050023025:android:72cdc58dc836f1c4f751d0",
         "android_client_info": {
           "package_name": "com.example.examaker"
         }
       },
       "oauth_client": [
         {
-          "client_id": "8872769440-e1mdqmqam77ssup150pvfs71edjq248l.apps.googleusercontent.com",
+          "client_id": "300050023025-vuivj04791n8k8juo0gttcfa29aqnclg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCCmEMyad8E1QYIRuXLt_L-jHSmkftrzrE"
+          "current_key": "AIzaSyD3Gez1Pi9JTLl9NArfWtHAoQh10OsB3iU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "8872769440-e1mdqmqam77ssup150pvfs71edjq248l.apps.googleusercontent.com",
+              "client_id": "300050023025-vuivj04791n8k8juo0gttcfa29aqnclg.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "8872769440-ksotnp7h3bmevcmlq15913ir9hcfh8tj.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "io.flutter.flutter.ap"
-              }
             }
           ]
         }
