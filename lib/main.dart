@@ -7,11 +7,7 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Check if app needs to be initialized
-  if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp();
-  } else {
-    Firebase.app();
-  }
+  Firebase.apps.isEmpty ? Firebase.initializeApp() : Firebase.app();
   WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setPreferredOrientations(
   //     [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
