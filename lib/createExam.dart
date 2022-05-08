@@ -1,11 +1,7 @@
-import 'dart:math';
-
 import 'package:examaker/addQuestion.dart';
 import 'package:examaker/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
-
-
 
 class createExam extends StatefulWidget {
   const createExam({Key? key}) : super(key: key);
@@ -20,8 +16,6 @@ class _createExamState extends State<createExam> {
   DatabaseService databaseService = new DatabaseService();
 
   bool _isLoading = false;
-
-  
 
   createExamOnline() async {
     if (_formKey.currentState!.validate()) {
@@ -46,7 +40,6 @@ class _createExamState extends State<createExam> {
       });
     }
   }
-  
 
   @override
   Widget build(BuildContext context) {
