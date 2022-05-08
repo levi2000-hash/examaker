@@ -23,10 +23,9 @@ class AdminHome extends StatelessWidget {
                     backgroundColor: Colors.amber,
                   )),
               TextButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => createExam() 
-                      ));
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => createExam()));
                   },
                   child: const Text("Examen maken"),
                   style: TextButton.styleFrom(
