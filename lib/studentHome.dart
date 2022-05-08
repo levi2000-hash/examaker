@@ -28,7 +28,7 @@ class StudentHome extends StatelessWidget {
             TextButton(
                 onPressed: () => {
                       Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => MainPage()))
+                          MaterialPageRoute(builder: (context) => ExamenPage()))
                     },
                 child: const Text("Start"),
                 style: TextButton.styleFrom(
