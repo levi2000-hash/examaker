@@ -6,6 +6,7 @@ class FireAuth {
     required String password,
   }) async {
     FirebaseAuth auth = FirebaseAuth.instance;
+    auth.authStateChanges();
     User? student;
 
     try {

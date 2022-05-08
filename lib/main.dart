@@ -1,17 +1,16 @@
-import 'package:examaker/admin_login.dart';
-import 'package:examaker/examenPage.dart';
 import 'package:examaker/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'admin_login.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // Check if app needs to be initialized
+  Firebase.apps.isEmpty ? Firebase.initializeApp() : Firebase.app();
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
   runApp(const MyApp());
 }
 
