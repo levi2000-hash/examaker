@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'package:examaker/locationView.dart';
 import 'package:flutter/material.dart';
 
 import 'examenPage.dart';
-import 'main.dart';
 
 class StudentHome extends StatelessWidget {
   @override
@@ -36,6 +35,13 @@ class StudentHome extends StatelessWidget {
                   textStyle: const TextStyle(fontSize: 20),
                   backgroundColor: Colors.amber,
                 )),
+            ElevatedButton(
+              child: const Text("Locatie demo"),
+              onPressed: () => {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const LocationView()))
+              },
+            )
           ]),
         ));
   }

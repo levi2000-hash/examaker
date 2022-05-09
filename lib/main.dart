@@ -11,8 +11,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations(
-  //     [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
   runApp(const MyApp());
 }
 
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
 }
 
 class OpenExamenVraag extends StatelessWidget {
-  OpenExamenVraag(this.vraag);
+  const OpenExamenVraag(this.vraag);
 
   final String vraag;
 

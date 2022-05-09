@@ -58,7 +58,24 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                                   }
                               })
                     },
-                child: const Text('Log in'))
+                child: const Text('Log in')),
+            ElevatedButton(
+                onPressed: () => {
+                      FirebaseFirestore.instance
+                          .collection("students")
+                          .doc("test@ap.be")
+                          .get()
+                          .then((value) => {
+                                if (value.exists)
+                                  {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                StudentHome()))
+                                  }
+                              })
+                    },
+                child: const Text('Bypass Login'))
           ]),
         ));
   }

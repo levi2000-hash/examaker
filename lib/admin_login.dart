@@ -60,7 +60,17 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                     }
                   }
                 },
-                child: const Text('Log in'))
+                child: const Text('Log in')),
+            ElevatedButton(
+                onPressed: () async {
+                  User? user = await FireAuth.signInUsingEmailPassword(
+                      email: "test@ap.be", password: "123456");
+                  if (user != null) {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => AdminHome()));
+                  }
+                },
+                child: const Text('bypass login'))
           ]),
         ));
   }
