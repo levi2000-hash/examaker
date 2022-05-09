@@ -13,7 +13,7 @@ class createExam extends StatefulWidget {
 class _createExamState extends State<createExam> {
   final _formKey = GlobalKey<FormState>();
   late String examTitel, examBeschrijving, examId;
-  DatabaseService databaseService = new DatabaseService();
+  DatabaseService databaseService = DatabaseService();
 
   bool _isLoading = false;
 
@@ -46,7 +46,7 @@ class _createExamState extends State<createExam> {
     return Scaffold(
         body: _isLoading
             ? Container(
-                child: Center(
+                child: const Center(
                   child: CircularProgressIndicator(),
                 ),
               )

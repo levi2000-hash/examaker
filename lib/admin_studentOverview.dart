@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:csv/csv.dart';
+import 'package:examaker/services/database.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +16,13 @@ class StudentOverview extends StatefulWidget {
 }
 
 class _StudentOverviewState extends State<StudentOverview> {
-  List<List<dynamic>> _data = [];
+  List<Student> students = [];
+  DatabaseService db = DatabaseService();
 
   void _openFileExplorer() async {
     List<PlatformFile> _paths = [];
     try {
+      FilePicker.platform.clearTemporaryFiles();
       _paths = (await FilePicker.platform.pickFiles(
               type: FileType.custom,
               allowMultiple: false,
@@ -46,8 +49,39 @@ class _StudentOverviewState extends State<StudentOverview> {
         .toList();
 
     setState(() {
-      _data = fields;
-      _data.removeAt(0); //Remove heading of csv file
+      fields.removeAt(0); //Remove heading of csv file
+      addToStudents(fields);
+    });
+  }
+
+  void addToStudents(fields) {
+    for (var csvStudent in fields) {
+      if (students
+          .where((element) => element.studentNumber == csvStudent[0])
+          .isEmpty) {
+        students.add(Student(csvStudent[0], csvStudent[1]));
+      }
+    }
+  }
+
+  void saveToFirebase() {
+    db.saveStudents(students);
+  }
+
+  void deleteStudents() {
+    db.clearStudents();
+    setState(() {
+      students = [];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    db.getAllStudents().then((value) {
+      setState(() {
+        students = value;
+      });
     });
   }
 
@@ -61,23 +95,53 @@ class _StudentOverviewState extends State<StudentOverview> {
       //LoginForm
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              color: Colors.green,
-              height: 30,
-              child: TextButton(
-                child: const Text(
-                  "CSV To List",
-                  style: TextStyle(color: Colors.white),
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                color: Colors.green,
+                height: 30,
+                child: TextButton(
+                  child: const Text(
+                    "Import students",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: kIsWeb ? null : _openFileExplorer,
                 ),
-                onPressed: kIsWeb ? null : _openFileExplorer,
               ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                color: Colors.green,
+                height: 30,
+                child: TextButton(
+                  child: const Text(
+                    "Save to db",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: saveToFirebase,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                color: Colors.green,
+                height: 30,
+                child: TextButton(
+                  child: const Text(
+                    "Delete all students",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: deleteStudents,
+                ),
+              ),
+            ),
+          ]),
           ListView.builder(
               shrinkWrap: true,
-              itemCount: _data.length,
+              itemCount: students.length,
               itemBuilder: (context, index) {
                 return Card(
                   child: Padding(
@@ -86,9 +150,8 @@ class _StudentOverviewState extends State<StudentOverview> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(_data[index][0]),
-                        Text(_data[index][1]),
-                        Text(_data[index][2]),
+                        Text(students[index].name),
+                        Text(students[index].studentNumber),
                       ],
                     ),
                   ),

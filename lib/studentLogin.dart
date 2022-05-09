@@ -63,7 +63,7 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                 onPressed: () => {
                       FirebaseFirestore.instance
                           .collection("students")
-                          .doc("test@ap.be")
+                          .doc("s125099@ap.be")
                           .get()
                           .then((value) => {
                                 if (value.exists)
