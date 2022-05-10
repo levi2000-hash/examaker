@@ -1,7 +1,6 @@
+import 'package:examaker/view/admin/admin_login.dart';
 import 'package:examaker/view/student/studentLogin.dart';
 import 'package:flutter/material.dart';
-
-import '../admin/admin_login.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
