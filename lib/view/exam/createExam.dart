@@ -1,4 +1,4 @@
-import 'package:examaker/addQuestion.dart';
+import 'package:examaker/view/exam/addQuestion.dart';
 import 'package:examaker/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';

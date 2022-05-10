@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examaker/model/Student.dart';
 import 'package:examaker/services/database.dart';
-import 'package:examaker/studentHome.dart';
+import 'package:examaker/singleton/app_data.dart';
+import 'package:examaker/view/student/studentHome.dart';
 import 'package:flutter/material.dart';
 
 class StudentLoginPage extends StatefulWidget {
@@ -48,6 +50,9 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
                                   .then((value) => {
                                         if (value.exists)
                                           {
+                                            appData.loggedInStudent =
+                                                Student.fromFirestore(
+                                                    value, null),
                                             Navigator.of(context)
                                                 .pushReplacement(
                                                     MaterialPageRoute(

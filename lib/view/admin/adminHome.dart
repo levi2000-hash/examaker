@@ -1,9 +1,8 @@
-import 'package:examaker/admin_studentOverview.dart';
-import 'package:examaker/change_password.dart';
+import 'package:examaker/view/admin/admin_studentOverview.dart';
+import 'package:examaker/view/admin/change_password.dart';
 import 'package:examaker/services/auth_service.dart';
+import 'package:examaker/view/exam/createExam.dart';
 import 'package:flutter/material.dart';
-
-import 'createExam.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);

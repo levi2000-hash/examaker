@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:examaker/auth.dart';
+import 'package:examaker/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {

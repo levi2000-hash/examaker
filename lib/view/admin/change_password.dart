@@ -1,10 +1,6 @@
-import 'dart:developer';
-
-import 'package:examaker/adminHome.dart';
 import 'package:examaker/services/auth_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'validator.dart';
+import '../../services/validator.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key}) : super(key: key);
@@ -30,10 +26,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                 actions: [
                   ElevatedButton(
                       onPressed: () {
+                        //Exit dialog
                         Navigator.of(context, rootNavigator: true)
                             .pop('dialog');
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const AdminHome()));
+                        //Go back to admin home
+                        Navigator.of(context).pop();
                       },
                       child: const Text("OK"))
                 ],

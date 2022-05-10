@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'main.dart';
+import '../../main.dart';
 
 class ExamenPage extends StatefulWidget {
   const ExamenPage({Key? key}) : super(key: key);

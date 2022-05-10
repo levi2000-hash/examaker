@@ -1,8 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:examaker/model/Student.dart';
 
 class DatabaseService {
   Future<void> addExamData(Map<String, dynamic> examData, String examId) async {
@@ -58,24 +57,5 @@ class DatabaseService {
 
   String generateStudentDoc(Student student) {
     return student.studentNumber + "@ap.be";
-  }
-}
-
-class Student {
-  String studentNumber;
-  String name;
-
-  Student(this.studentNumber, this.name);
-
-  Student.fromFirestore(
-      DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options)
-      : name = snapshot.data()?["name"],
-        studentNumber = snapshot.data()?["studentNumber"];
-
-  Map<String, dynamic> toFirestore() {
-    return {
-      "name": name,
-      "studentNumber": studentNumber,
-    };
   }
 }

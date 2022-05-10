@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:csv/csv.dart';
+import 'package:examaker/model/Student.dart';
 import 'package:examaker/services/database.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -62,17 +63,44 @@ class _StudentOverviewState extends State<StudentOverview> {
         students.add(Student(csvStudent[0], csvStudent[1]));
       }
     }
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("${students.length} studenten geïmporteerd")));
   }
 
   void saveToFirebase() {
     db.saveStudents(students);
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Studenten zijn opgeslagen in database")));
   }
 
   void deleteStudents() {
-    db.clearStudents();
-    setState(() {
-      students = [];
-    });
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Bent u zeker?"),
+              content: const Text("Deze actie verwijdert alle studenten"),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      //Exit dialog
+                      Navigator.of(context, rootNavigator: true).pop('dialog');
+                      int count = students.length;
+                      db.clearStudents();
+                      setState(() {
+                        students = [];
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("${count} studenten verwijderd")));
+                      });
+                    },
+                    child: const Text("Verwijder")),
+                ElevatedButton(
+                    onPressed: () {
+                      //Exit dialog
+                      Navigator.of(context, rootNavigator: true).pop('dialog');
+                    },
+                    child: const Text("Annuleer"))
+              ],
+            ));
   }
 
   @override
@@ -101,10 +129,9 @@ class _StudentOverviewState extends State<StudentOverview> {
               child: Container(
                 color: Colors.green,
                 height: 30,
-                child: TextButton(
+                child: ElevatedButton(
                   child: const Text(
-                    "Import students",
-                    style: TextStyle(color: Colors.white),
+                    "Studenten importeren",
                   ),
                   onPressed: kIsWeb ? null : _openFileExplorer,
                 ),
@@ -115,10 +142,9 @@ class _StudentOverviewState extends State<StudentOverview> {
               child: Container(
                 color: Colors.green,
                 height: 30,
-                child: TextButton(
+                child: ElevatedButton(
                   child: const Text(
-                    "Save to db",
-                    style: TextStyle(color: Colors.white),
+                    "Opslaan naar database",
                   ),
                   onPressed: saveToFirebase,
                 ),
@@ -129,10 +155,9 @@ class _StudentOverviewState extends State<StudentOverview> {
               child: Container(
                 color: Colors.green,
                 height: 30,
-                child: TextButton(
+                child: ElevatedButton(
                   child: const Text(
-                    "Delete all students",
-                    style: TextStyle(color: Colors.white),
+                    "Alle studenten verwijderen",
                   ),
                   onPressed: deleteStudents,
                 ),
