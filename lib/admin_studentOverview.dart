@@ -139,24 +139,26 @@ class _StudentOverviewState extends State<StudentOverview> {
               ),
             ),
           ]),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: students.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(students[index].name),
-                        Text(students[index].studentNumber),
-                      ],
+          Expanded(
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: students.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(students[index].name),
+                          Text(students[index].studentNumber),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+          ),
         ],
       ),
     );

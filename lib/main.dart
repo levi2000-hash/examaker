@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Examaker',
       theme: ThemeData(
         //Set main color theme
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.green,
       ),
       home: const HomePage(),
     );

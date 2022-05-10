@@ -1,10 +1,22 @@
 import 'package:examaker/admin_studentOverview.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:examaker/change_password.dart';
+import 'package:examaker/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import 'createExam.dart';
 
-class AdminHome extends StatelessWidget {
+class AdminHome extends StatefulWidget {
+  const AdminHome({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _AdminHomeState();
+}
+
+class _AdminHomeState extends State<AdminHome> {
+  AuthService auth = AuthService();
+
+  void changePassword() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,52 +28,33 @@ class AdminHome extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextButton(
-                  onPressed: () => {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const StudentOverview()))
-                      },
-                  child: const Text("Studenten"),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.amber,
-                  )),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => createExam()));
-                  },
-                  child: const Text("Examen maken"),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.amber,
-                  )),
-              TextButton(
-                  onPressed: null,
-                  child: const Text("Resultaten"),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.amber,
-                  )),
-              TextButton(
-                  onPressed: null,
-                  child: const Text("Sync DB"),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.amber,
-                  )),
-              TextButton(
-                  onPressed: null,
-                  child: const Text("Wijzig wachtwoord"),
-                  style: TextButton.styleFrom(
-                    primary: Colors.black,
-                    textStyle: const TextStyle(fontSize: 20),
-                    backgroundColor: Colors.amber,
-                  )),
+              ElevatedButton(
+                onPressed: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const StudentOverview()))
+                },
+                child: const Text("Studenten"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const createExam()));
+                },
+                child: const Text("Examen maken"),
+              ),
+              ElevatedButton(
+                onPressed: null,
+                child: Text("Resultaten"),
+              ),
+              ElevatedButton(
+                onPressed: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ChangePassword()))
+                },
+                child: const Text("Wijzig wachtwoord"),
+              ),
             ],
           ),
         ));
