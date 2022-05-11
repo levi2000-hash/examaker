@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examaker/model/student.dart';
-import 'package:examaker/services/database.dart';
+import 'package:examaker/services/student_service.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:examaker/view/student/studentHome.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +13,12 @@ class StudentLoginPage extends StatefulWidget {
 
 class _StudentLoginPageState extends State<StudentLoginPage> {
   List<Student> students = [];
-  DatabaseService db = DatabaseService();
+  StudentService studentService = StudentService();
 
   @override
   void initState() {
     super.initState();
-    db.getAllStudents().then((value) {
+    studentService.getAll().then((value) {
       setState(() {
         students = value;
       });

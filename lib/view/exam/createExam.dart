@@ -1,5 +1,6 @@
+import 'package:examaker/services/exam_service.dart';
 import 'package:examaker/view/exam/addQuestion.dart';
-import 'package:examaker/services/database.dart';
+import 'package:examaker/services/student_service.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 
@@ -13,7 +14,7 @@ class createExam extends StatefulWidget {
 class _createExamState extends State<createExam> {
   final _formKey = GlobalKey<FormState>();
   late String examTitel, examBeschrijving, examId;
-  DatabaseService databaseService = DatabaseService();
+  ExamService examService = ExamService();
 
   bool _isLoading = false;
 
@@ -31,7 +32,7 @@ class _createExamState extends State<createExam> {
         "examBeschrijving": examBeschrijving
       };
 
-      await databaseService.addExamData(examMap, examId).then((value) {
+      await examService.addExamData(examMap, examId).then((value) {
         setState(() {
           _isLoading = false;
           Navigator.pushReplacement(

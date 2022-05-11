@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:csv/csv.dart';
-import 'package:examaker/services/database.dart';
+import 'package:examaker/services/student_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class StudentOverview extends StatefulWidget {
 
 class _StudentOverviewState extends State<StudentOverview> {
   List<Student> students = [];
-  DatabaseService db = DatabaseService();
+  StudentService studentService = StudentService();
 
   void _openFileExplorer() async {
     List<PlatformFile> _paths = [];
@@ -68,7 +68,7 @@ class _StudentOverviewState extends State<StudentOverview> {
   }
 
   void saveToFirebase() {
-    db.saveStudents(students);
+    studentService.save(students);
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Studenten zijn opgeslagen in database")));
   }
@@ -106,7 +106,7 @@ class _StudentOverviewState extends State<StudentOverview> {
   @override
   void initState() {
     super.initState();
-    db.getAllStudents().then((value) {
+    service.getAll().then((value) {
       setState(() {
         students = value;
       });

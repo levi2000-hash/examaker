@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examaker/model/student.dart';
 
-class DatabaseService {
+class StudentService {
   Future<void> addExamData(Map<String, dynamic> examData, String examId) async {
     await FirebaseFirestore.instance
         .collection("Exam")
@@ -14,7 +14,7 @@ class DatabaseService {
     });
   }
 
-  Future<List<Student>> getAllStudents() async {
+  Future<List<Student>> getAll() async {
     List<Student> students = [];
     final docRef = FirebaseFirestore.instance
         .collection("students")
@@ -29,7 +29,7 @@ class DatabaseService {
     });
   }
 
-  void saveStudents(List<Student> students) {
+  void save(List<Student> students) {
     for (var student in students) {
       FirebaseFirestore.instance
           .collection("students")
@@ -41,8 +41,8 @@ class DatabaseService {
     }
   }
 
-  void clearStudents() async {
-    var students = await getAllStudents();
+  void deleteAll() async {
+    var students = await getAll();
 
     for (var student in students) {
       FirebaseFirestore.instance
