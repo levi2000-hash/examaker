@@ -1,4 +1,4 @@
-import 'package:examaker/model/Student.dart';
+import 'package:examaker/model/student.dart';
 
 class AppData {
   static final AppData _appData = AppData._internal();

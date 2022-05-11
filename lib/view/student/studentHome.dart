@@ -32,8 +32,8 @@ class StudentHome extends StatelessWidget {
                   ))),
                   ElevatedButton(
                     onPressed: () => {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const ExamenPage()))
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => ExamenPage()))
                     },
                     child: const Text("Start"),
                   ),

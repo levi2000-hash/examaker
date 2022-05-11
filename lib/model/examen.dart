@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:examaker/model/Vraag.dart';
+import 'package:examaker/model/vraag.dart';
 
 class Examen {
   String? id;

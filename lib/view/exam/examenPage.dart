@@ -1,20 +1,26 @@
 import 'dart:developer';
 
+import 'package:examaker/model/examen.dart';
+import 'package:examaker/model/vraag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
 
 class ExamenPage extends StatefulWidget {
-  const ExamenPage({Key? key}) : super(key: key);
-
   @override
   State<ExamenPage> createState() => _ExamenPageState();
+
+  final List<Vraag> examenVragen;
+  ExamenPage(this.examenVragen, {Key? key}) : super(key: key) {
+    final examenVragen = this.examenVragen;
+  }
 }
 
 class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
-  final bool _completed = false;
   late AppLifecycleState appState;
+  final bool isComplete = false;
+
   int outOfFocusCount = 0;
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -47,8 +53,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
       ),
       body: Column(children: [
         //Vraag 1
-        OpenExamenVraag("vraag 1"),
-        OpenExamenVraag("Vraag 2")
+        examenVragen.forEach((vraag) => {vraag.build(context)})
       ]),
       floatingActionButton: const FloatingActionButton(
         onPressed: null,

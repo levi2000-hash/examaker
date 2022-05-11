@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:examaker/model/Student.dart';
+import 'package:examaker/model/student.dart';
 import 'package:examaker/services/database.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:examaker/view/student/studentHome.dart';

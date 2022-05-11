@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:examaker/model/Student.dart';
+import 'package:examaker/model/student.dart';
 
 class DatabaseService {
   Future<void> addExamData(Map<String, dynamic> examData, String examId) async {
