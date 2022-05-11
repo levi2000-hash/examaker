@@ -22,7 +22,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   final bool isComplete = false;
 
   int outOfFocusCount = 0;
-  @override
+
   void didChangeAppLifecycleState(AppLifecycleState state) {
     setState(() {
       appState = state;
