@@ -20,6 +20,9 @@ class ExamTimer extends StatelessWidget {
     CountdownTimerController controller = CountdownTimerController(
         endTime: endTime,
         onEnd: () => {
+              //Stop and save examen
+              //TODO: Examen opslaan
+
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomePage()))
             });

@@ -7,11 +7,13 @@ class ExamenMoment {
   int lat;
   String adres;
   int outOfFocusCount;
+  bool finished;
 
   //TODO: Antwoorden bijhouden
 
   ExamenMoment(this.studentId, this.examenId, this.lon, this.lat, this.adres,
-      this.outOfFocusCount);
+      this.outOfFocusCount)
+      : finished = false;
 
   ExamenMoment.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options)
@@ -20,7 +22,8 @@ class ExamenMoment {
         lon = snapshot.data()?["lon"],
         lat = snapshot.data()?["lat"],
         adres = snapshot.data()?["adres"],
-        outOfFocusCount = snapshot.data()?["outOfFocusCount"];
+        outOfFocusCount = snapshot.data()?["outOfFocusCount"],
+        finished = snapshot.data()?["finished"];
 
   Map<String, dynamic> toFirestore() {
     return {
@@ -29,7 +32,8 @@ class ExamenMoment {
       "lon": lon,
       "lat": lat,
       "adres": adres,
-      "outOfFocusCount": outOfFocusCount
+      "outOfFocusCount": outOfFocusCount,
+      "finished": finished
     };
   }
 }

@@ -69,8 +69,7 @@ class _createExamState extends State<createExam> {
                         height: 5,
                       ),
                       TextFormField(
-                        validator: (val) =>
-                            val!.isEmpty ? "Geef examen beschrijving " : null,
+                        validator: (val) => val!.isEmpty ? "Geef vak " : null,
                         // ignore: prefer_const_constructors
                         decoration: const InputDecoration(hintText: "Vak"),
                         onChanged: (val) {

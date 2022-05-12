@@ -50,7 +50,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Examen Java"),
+          title: Text(appData.currentExam!.naam),
         ),
         body: const Text("Examen"));
   }

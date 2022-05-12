@@ -1,11 +1,34 @@
+import 'dart:developer';
+
 import 'package:examaker/locationView.dart';
+import 'package:examaker/services/exam_service.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/examen.dart';
 import '../exam/examenPage.dart';
 
-class StudentHome extends StatelessWidget {
+class StudentHome extends StatefulWidget {
   const StudentHome({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _StudentHomeState();
+}
+
+class _StudentHomeState extends State<StudentHome> {
+  ExamService examService = ExamService();
+  Examen? examen;
+
+  @override
+  void initState() {
+    super.initState();
+    examService.getExamen().then((value) {
+      setState(() {
+        examen = value;
+        appData.currentExam = examen;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +48,8 @@ class StudentHome extends StatelessWidget {
                       child: Center(
                           child: Container(
                     padding: const EdgeInsets.only(bottom: 8),
-                    child: const Text(
-                      "Intro Mobile (2u)",
+                    child: Text(
+                      examen != null ? examen!.naam : "Laden...",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -34,8 +57,32 @@ class StudentHome extends StatelessWidget {
                   ))),
                   ElevatedButton(
                     onPressed: () => {
-                      Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => ExamenPage()))
+                      //TODO: Check of er nog een poging is
+                      if (false)
+                        {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title:
+                                        const Text("Examen niet beschikbaar"),
+                                    content: const Text("Tijd verlopen"),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop("dialog");
+                                          },
+                                          child: const Text("Ok"))
+                                    ],
+                                  ))
+                        }
+                      else
+                        {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => ExamenPage()))
+                        }
                     },
                     child: const Text("Start"),
                   ),

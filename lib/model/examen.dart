@@ -3,7 +3,8 @@ import 'package:examaker/model/vraag.dart';
 
 class Examen {
   String? id;
-  List<Vraag> vragen;
+  //Todo: Change back to Vraag and find out how subsets work
+  List<dynamic> vragen;
   String naam;
   String vak;
   int punten;
