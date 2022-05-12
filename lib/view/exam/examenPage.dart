@@ -2,27 +2,25 @@ import 'dart:developer';
 
 import 'package:examaker/model/examen.dart';
 import 'package:examaker/model/vraag.dart';
+import 'package:examaker/singleton/app_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
-
 class ExamenPage extends StatefulWidget {
+  const ExamenPage({Key? key}) : super(key: key);
   @override
   State<ExamenPage> createState() => _ExamenPageState();
-
-  final List<Vraag> examenVragen;
-  ExamenPage(this.examenVragen, {Key? key}) : super(key: key) {
-    final examenVragen = this.examenVragen;
-  }
 }
 
 class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   late AppLifecycleState appState;
   final bool isComplete = false;
 
+  Examen examen = AppData().currentExam!;
+
   int outOfFocusCount = 0;
 
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     setState(() {
       appState = state;
@@ -37,6 +35,9 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
+    for (var vraag in examen.vragen) {
+      log(vraag.vraag);
+    }
   }
 
   @override
@@ -48,17 +49,9 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Examen Java"),
-      ),
-      body: Column(children: [
-        //Vraag 1
-        examenVragen.forEach((vraag) => {vraag.build(context)})
-      ]),
-      floatingActionButton: const FloatingActionButton(
-        onPressed: null,
-        child: Icon(Icons.check),
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Examen Java"),
+        ),
+        body: const Text("Examen"));
   }
 }

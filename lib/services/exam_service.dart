@@ -4,33 +4,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examaker/model/examen.dart';
 
 class ExamService {
-  Future<Map<String, dynamic>?> getById(String id) async {
-    Map<String, dynamic>? examToGet;
+  Future<void> addExam(Examen examen) async {
     await FirebaseFirestore.instance
-        .collection("Exam")
-        .doc(id)
-        .get()
-        .then((exam) => {examToGet = exam.data()});
-    return examToGet;
-  }
-
-  Future<void> addExamData(Map<String, dynamic> examData, String examId) async {
-    await FirebaseFirestore.instance
-        .collection("Exam")
-        .doc(examId)
-        .set(examData)
+        .collection("exam")
+        .withConverter(
+            fromFirestore: Examen.fromFirestore,
+            toFirestore: (Examen examen, _) => examen.toFirestore())
+        .doc(examen.id)
+        .set(examen, SetOptions(merge: true))
         .catchError((e) {
       log(e.toString());
     });
   }
 
-  void save(Examen exam) {
-    FirebaseFirestore.instance
-        .collection("Exam")
+  Future<Examen> getExamen() async {
+    QuerySnapshot<Examen> examenDocs = await FirebaseFirestore.instance
+        .collection("exam")
         .withConverter(
             fromFirestore: Examen.fromFirestore,
-            toFirestore: (Examen exam, _) => exam.toFirestore())
-        .doc(exam.id)
-        .set(exam, SetOptions(merge: true));
+            toFirestore: (Examen examen, _) => examen.toFirestore())
+        .get();
+
+    //Get first Exam. There can only be one exam
+    return examenDocs.docs[0].data();
   }
 }

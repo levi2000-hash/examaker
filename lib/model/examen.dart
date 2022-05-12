@@ -12,6 +12,10 @@ class Examen {
 
   Examen.withoutId(this.vragen, this.naam, this.vak, this.punten) : id = null;
 
+  Examen.withoutVragen(this.id, this.naam, this.vak)
+      : vragen = [],
+        punten = 0;
+
   Examen.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options)
       : naam = snapshot.data()?["naam"],

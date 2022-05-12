@@ -85,7 +85,7 @@ class _StudentOverviewState extends State<StudentOverview> {
                       //Exit dialog
                       Navigator.of(context, rootNavigator: true).pop('dialog');
                       int count = students.length;
-                      db.clearStudents();
+                      studentService.deleteAll();
                       setState(() {
                         students = [];
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -106,7 +106,7 @@ class _StudentOverviewState extends State<StudentOverview> {
   @override
   void initState() {
     super.initState();
-    service.getAll().then((value) {
+    studentService.getAll().then((value) {
       setState(() {
         students = value;
       });

@@ -1,8 +1,9 @@
+import 'package:examaker/model/examen.dart';
 import 'package:examaker/services/exam_service.dart';
 import 'package:examaker/view/exam/addQuestion.dart';
-import 'package:examaker/services/student_service.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
+import 'package:uuid/uuid.dart';
 
 class createExam extends StatefulWidget {
   const createExam({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class createExam extends StatefulWidget {
 
 class _createExamState extends State<createExam> {
   final _formKey = GlobalKey<FormState>();
-  late String examTitel, examBeschrijving, examId;
+  late String examTitel, examVak, examId;
   ExamService examService = ExamService();
 
   bool _isLoading = false;
@@ -26,13 +27,10 @@ class _createExamState extends State<createExam> {
 
       examId = randomAlphaNumeric(16);
 
-      Map<String, String> examMap = {
-        "examId": examId,
-        "examTitel": examTitel,
-        "examBeschrijving": examBeschrijving
-      };
+      Uuid uuid = const Uuid();
+      Examen examen = Examen(uuid.v4(), [], examTitel, examVak, 0);
 
-      await examService.addExamData(examMap, examId).then((value) {
+      await examService.addExam(examen).then((value) {
         setState(() {
           _isLoading = false;
           Navigator.pushReplacement(
@@ -54,7 +52,8 @@ class _createExamState extends State<createExam> {
             : Form(
                 key: _formKey,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
                   child: Column(
                     children: [
                       TextFormField(
@@ -66,41 +65,21 @@ class _createExamState extends State<createExam> {
                           examTitel = val;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       TextFormField(
                         validator: (val) =>
                             val!.isEmpty ? "Geef examen beschrijving " : null,
                         // ignore: prefer_const_constructors
-                        decoration:
-                            InputDecoration(hintText: "Examen beschrijving"),
+                        decoration: const InputDecoration(hintText: "Vak"),
                         onChanged: (val) {
-                          examBeschrijving = val;
+                          examVak = val;
                         },
                       ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          createExamOnline();
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 20),
-                          decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Text(
-                            "Creër Examen",
-                            style: TextStyle(fontSize: 16, color: Colors.black),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 60,
-                      ),
+                      ElevatedButton(
+                          onPressed: createExamOnline,
+                          child: const Text("Creër Examen"))
                     ],
                   ),
                 ),
