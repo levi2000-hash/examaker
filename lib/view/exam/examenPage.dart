@@ -53,8 +53,9 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
           title: Text(appData.currentExam!.naam),
         ),
         body: Column(
-          children:
-              examen.vragen.map((vraag) {return vraag.build(context)}).toList(),
+          children: examen.vragen.map((vraag) {
+            return vraag.build(context);
+          }).toList(),
         ));
   }
 }
