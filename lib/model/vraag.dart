@@ -12,18 +12,16 @@ class Vraag {
   Vraag(this.vraag, this.vraagSoort, this.keuzes, this.antwoord, this.punten)
       : id = null;
 
-  Vraag.multipleChoice(this.vraag, this.keuzes, this.antwoord, this.punten)
-      : id = null,
-        vraagSoort = "MC";
+  Vraag.multipleChoice(
+      this.id, this.vraag, this.keuzes, this.antwoord, this.punten)
+      : vraagSoort = "MC";
 
-  Vraag.open(this.vraag, this.antwoord, this.punten)
-      : id = null,
-        keuzes = [],
+  Vraag.open(this.id, this.vraag, this.antwoord, this.punten)
+      : keuzes = [],
         vraagSoort = "OPEN";
 
-  Vraag.code(this.vraag, this.punten)
-      : id = null,
-        keuzes = [],
+  Vraag.code(this.id, this.vraag, this.punten)
+      : keuzes = [],
         antwoord = "",
         vraagSoort = "CODE";
 

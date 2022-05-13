@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:examaker/model/examen.dart';
+import 'package:examaker/model/vraag.dart';
 import 'package:examaker/services/exam_service.dart';
 import 'package:examaker/view/exam/addQuestion.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +31,7 @@ class _createExamState extends State<createExam> {
       examId = randomAlphaNumeric(16);
 
       Uuid uuid = const Uuid();
-      Examen examen = Examen(uuid.v4(), [], examTitel, examVak, 0);
+      Examen examen = Examen(uuid.v4(), [], examTitel, examVak, 0, 0);
 
       await examService.addExam(examen).then((value) {
         setState(() {
@@ -38,6 +41,21 @@ class _createExamState extends State<createExam> {
         });
       });
     }
+  }
+
+  void testExamen() async {
+    Uuid uuid = const Uuid();
+    List<Vraag> vragen = [];
+    vragen.add(Vraag.code(uuid.v4(), "Schrijf een for loop", 10));
+    List<String> keuzes = ["a", "b", "c"];
+    vragen.add(Vraag.multipleChoice(uuid.v4(), "A, B of C?", keuzes, "c", 5));
+    vragen.add(Vraag.open(uuid.v4(), "Open vraag", "Ja", 1));
+
+    Examen examen =
+        Examen("testExamen", vragen, "TestExamen", "Flutter", 0, 120);
+
+    await examService.addExam(examen);
+    log("Done");
   }
 
   @override
@@ -77,7 +95,7 @@ class _createExamState extends State<createExam> {
                         },
                       ),
                       ElevatedButton(
-                          onPressed: createExamOnline,
+                          onPressed: testExamen,
                           child: const Text("Creër Examen"))
                     ],
                   ),

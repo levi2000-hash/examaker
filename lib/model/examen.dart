@@ -10,12 +10,14 @@ class Examen {
   String naam;
   String vak;
   int punten;
+  int duur;
 
-  Examen(this.id, this.vragen, this.naam, this.vak, this.punten);
+  Examen(this.id, this.vragen, this.naam, this.vak, this.punten, this.duur);
 
-  Examen.withoutId(this.vragen, this.naam, this.vak, this.punten) : id = null;
+  Examen.withoutId(this.vragen, this.naam, this.vak, this.punten, this.duur)
+      : id = null;
 
-  Examen.withoutVragen(this.id, this.naam, this.vak)
+  Examen.withoutVragen(this.id, this.naam, this.vak, this.duur)
       : vragen = [],
         punten = 0;
 
@@ -24,9 +26,10 @@ class Examen {
       : naam = snapshot.data()?["naam"],
         vragen = [],
         vak = snapshot.data()?["vak"],
-        punten = snapshot.data()?["punten"];
+        punten = snapshot.data()?["punten"],
+        duur = snapshot.data()?["duur"];
 
   Map<String, dynamic> toFirestore() {
-    return {"naam": naam, "vragen": vragen, "vak": vak, "punten": punten};
+    return {"naam": naam, "vak": vak, "punten": punten, "duur": duur};
   }
 }
