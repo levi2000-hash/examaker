@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class Vraag {
   String vraag;
   VraagSoort vraagSoort;
@@ -18,6 +21,27 @@ class Vraag {
       : keuzes = [],
         antwoord = "",
         vraagSoort = VraagSoort.code;
+
+  Widget build(BuildContext context) {
+    switch (vraagSoort) {
+      case VraagSoort.multipleChoice:
+        return (Column(
+          children: [
+            Text(vraag),
+            Column(
+              children: keuzes.map((keuze) {
+                return Text(keuze);
+              }).toList(),
+            )
+          ],
+        ));
+        break;
+      default:
+        return (Column(
+          children: [Text(vraag), TextField()],
+        ));
+    }
+  }
 }
 
 enum VraagSoort { code, multipleChoice, open }

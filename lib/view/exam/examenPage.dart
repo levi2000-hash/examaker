@@ -52,6 +52,18 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
         appBar: AppBar(
           title: Text(appData.currentExam!.naam),
         ),
-        body: const Text("Examen"));
+        body: Column(
+          children: [
+            Vraag.code("Hoe benoem je een variabele in dart", 2).build(context),
+            Vraag.multipleChoice(
+                    "Kies de juiste manier om een final variabele te maken",
+                    ["final", "public", "var"],
+                    "final",
+                    5)
+                .build(context),
+            Vraag.open("Hoe noemt de taal van flutter", "dart", 2)
+                .build(context)
+          ],
+        ));
   }
 }
