@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examaker/model/vraag.dart';
 
@@ -20,7 +22,7 @@ class Examen {
   Examen.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options)
       : naam = snapshot.data()?["naam"],
-        vragen = snapshot.data()?["vragen"],
+        vragen = [],
         vak = snapshot.data()?["vak"],
         punten = snapshot.data()?["punten"];
 
