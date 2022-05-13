@@ -53,17 +53,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
           title: Text(appData.currentExam!.naam),
         ),
         body: Column(
-          children: [
-            Vraag.code("Hoe benoem je een variabele in dart", 2).build(context),
-            Vraag.multipleChoice(
-                    "Kies de juiste manier om een final variabele te maken",
-                    ["final", "public", "var"],
-                    "final",
-                    5)
-                .build(context),
-            Vraag.open("Hoe noemt de taal van flutter", "dart", 2)
-                .build(context)
-          ],
+          children:
+              examen.vragen.map((vraag) {return vraag.build(context)}).toList(),
         ));
   }
 }
