@@ -1,3 +1,4 @@
+import 'package:examaker/services/validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class Vraag {
         vraagSoort = VraagSoort.code;
 
   Widget build(BuildContext context) {
+    final answerController = TextEditingController();
     switch (vraagSoort) {
       case VraagSoort.multipleChoice:
         return (Column(
@@ -38,7 +40,12 @@ class Vraag {
         break;
       default:
         return (Column(
-          children: [Text(vraag), TextField()],
+          children: [
+            Text(vraag),
+            TextFormField(
+                controller: answerController,
+                validator: (value) => Validator.validateAnswer(answer: value))
+          ],
         ));
     }
   }

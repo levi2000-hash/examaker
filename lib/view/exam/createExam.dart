@@ -15,6 +15,7 @@ class createExam extends StatefulWidget {
 class _createExamState extends State<createExam> {
   final _formKey = GlobalKey<FormState>();
   late String examTitel, examVak, examId;
+  late int examDuur;
   ExamService examService = ExamService();
 
   bool _isLoading = false;
@@ -28,7 +29,7 @@ class _createExamState extends State<createExam> {
       examId = randomAlphaNumeric(16);
 
       Uuid uuid = const Uuid();
-      Examen examen = Examen(uuid.v4(), [], examTitel, examVak, 0);
+      Examen examen = Examen(uuid.v4(), [], examTitel, examVak, 0, examDuur);
 
       await examService.addExam(examen).then((value) {
         setState(() {

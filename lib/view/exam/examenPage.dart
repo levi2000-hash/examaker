@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:examaker/model/examen.dart';
 import 'package:examaker/model/vraag.dart';
+import 'package:examaker/services/exam_timer.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,10 +53,13 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
         appBar: AppBar(
           title: Text(appData.currentExam!.naam),
         ),
-        body: Column(
-          children: examen.vragen.map((vraag) {
-            return vraag.build(context);
-          }).toList(),
-        ));
+        body: Column(children: [
+          ExamTimer(examen.duur),
+          Column(
+            children: examen.vragen.map((vraag) {
+              return vraag.build(context);
+            }).toList(),
+          )
+        ]));
   }
 }

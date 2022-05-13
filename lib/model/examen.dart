@@ -8,12 +8,14 @@ class Examen {
   String naam;
   String vak;
   int punten;
+  int duur = 0;
 
-  Examen(this.id, this.vragen, this.naam, this.vak, this.punten);
+  Examen(this.id, this.vragen, this.naam, this.vak, this.punten, this.duur);
 
-  Examen.withoutId(this.vragen, this.naam, this.vak, this.punten) : id = null;
+  Examen.withoutId(this.vragen, this.naam, this.vak, this.punten, this.duur)
+      : id = null;
 
-  Examen.withoutVragen(this.id, this.naam, this.vak)
+  Examen.withoutVragen(this.id, this.naam, this.vak, this.duur)
       : vragen = [],
         punten = 0;
 

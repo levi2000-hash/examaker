@@ -39,4 +39,11 @@ class Validator {
     }
     return null;
   }
+
+  static String? validateAnswer({required String? answer}) {
+    if (answer == null) {
+      return "Vraag kan niet leeg ingediend worden";
+    }
+    return null;
+  }
 }
