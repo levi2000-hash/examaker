@@ -9,27 +9,23 @@ class Examen {
   List<Vraag> vragen;
   String naam;
   String vak;
-  int punten;
+  int? punten;
   int duur;
 
-  Examen(this.id, this.vragen, this.naam, this.vak, this.punten, this.duur);
+  Examen(this.id, this.vragen, this.naam, this.vak, this.duur);
 
-  Examen.withoutId(this.vragen, this.naam, this.vak, this.punten, this.duur)
-      : id = null;
+  Examen.withoutId(this.vragen, this.naam, this.vak, this.duur) : id = null;
 
-  Examen.withoutVragen(this.id, this.naam, this.vak, this.duur)
-      : vragen = [],
-        punten = 0;
+  Examen.withoutVragen(this.id, this.naam, this.vak, this.duur) : vragen = [];
 
   Examen.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options)
       : naam = snapshot.data()?["naam"],
         vragen = [],
         vak = snapshot.data()?["vak"],
-        punten = snapshot.data()?["punten"],
         duur = snapshot.data()?["duur"];
 
   Map<String, dynamic> toFirestore() {
-    return {"naam": naam, "vak": vak, "punten": punten, "duur": duur};
+    return {"naam": naam, "vak": vak, "duur": duur};
   }
 }

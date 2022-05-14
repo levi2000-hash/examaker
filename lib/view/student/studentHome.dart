@@ -50,7 +50,7 @@ class _StudentHomeState extends State<StudentHome> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
                       examen != null ? examen!.naam : "Laden...",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
