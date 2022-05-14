@@ -48,19 +48,30 @@ class Vraag {
   Widget build(BuildContext context) {
     switch (vraagSoort) {
       case VraagSoort.multipleChoice:
+        String? _keuze = "";
         return (Column(
           children: [
             Text(vraag),
             Column(
               children: keuzes.map((keuze) {
-                return Text(keuze);
+                return ListTile(
+                  title: Text(keuze),
+                  leading: Radio<String>(
+                    value: keuze,
+                    groupValue: _keuze,
+                    onChanged: (String? value) {
+                      _keuze = value;
+                    },
+                  ),
+                );
               }).toList(),
-            )
+            ),
           ],
         ));
       default:
         return (Container(
-            padding: const EdgeInsets.all(14.0),
+            padding: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 Text(vraag),
