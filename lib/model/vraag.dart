@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examaker/services/validator.dart';
 import 'package:flutter/material.dart';
 
 class Vraag {
@@ -41,24 +42,59 @@ class Vraag {
       "punten": punten
     };
   }
+}
 
+class vraagWidget extends StatefulWidget {
+  vraagWidget({Key? key, required this.vraag}) : super(key: key);
+
+  final Vraag vraag;
+  final TextEditingController answerController = TextEditingController();
+
+  @override
+  State<vraagWidget> createState() => _vraagWidgetState();
+}
+
+class _vraagWidgetState extends State<vraagWidget> {
+  String? _keuze = null;
+  @override
   Widget build(BuildContext context) {
-    switch (vraagSoort) {
+    switch (widget.vraag.vraagSoort) {
       case VraagSoort.multipleChoice:
+        String? _keuze = "";
         return (Column(
           children: [
-            Text(vraag),
+            Text(widget.vraag.vraag),
             Column(
-              children: keuzes.map((keuze) {
-                return Text(keuze);
+              children: widget.vraag.keuzes.map((keuze) {
+                return ListTile(
+                  title: Text(keuze),
+                  leading: Radio<String>(
+                    value: keuze,
+                    groupValue: this._keuze,
+                    onChanged: (String? value) {
+                      setState(() {
+                        this._keuze = value;
+                      });
+                    },
+                  ),
+                );
               }).toList(),
-            )
+            ),
           ],
         ));
       default:
-        return (Column(
-          children: [Text(vraag), TextField()],
-        ));
+        return (Container(
+            padding: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Text(widget.vraag.vraag),
+                TextFormField(
+                  controller: widget.answerController,
+                  validator: (value) => Validator.validateAnswer(answer: value),
+                )
+              ],
+            )));
     }
   }
 }

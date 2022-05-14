@@ -32,29 +32,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class OpenExamenVraag extends StatelessWidget {
-  const OpenExamenVraag(this.vraag);
-
-  final String vraag;
-
-  @override
-  Widget build(BuildContext context) {
-    const double width = 60;
-    const double height = 40;
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            width: width,
-            height: height,
-            child: Text("$vraag"),
-          ),
-          const TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Enter answer"))
-        ],
-      ),
-    );
-  }
-}
