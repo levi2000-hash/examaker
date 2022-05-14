@@ -53,18 +53,19 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
       appBar: AppBar(
         title: Text(appData.currentExam!.naam),
       ),
-      body: Form(
-          key: examKey,
-          child: Column(
-            children: [
-              ExamTimer(4200),
-              Column(
-                children: examen.vragen.map((vraag) {
-                  return vraag.build(context);
-                }).toList(),
-              ),
-            ],
-          )),
+      body: SingleChildScrollView(
+          child: Form(
+              key: examKey,
+              child: Column(
+                children: [
+                  ExamTimer(4200),
+                  Column(
+                    children: examen.vragen.map((vraag) {
+                      return vraag.build(context);
+                    }).toList(),
+                  ),
+                ],
+              ))),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.check),
           hoverColor: Colors.green[200],
