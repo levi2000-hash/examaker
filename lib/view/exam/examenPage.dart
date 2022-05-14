@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:examaker/model/examen.dart';
+import 'package:examaker/model/examenMoment.dart';
 import 'package:examaker/model/vraag.dart';
+import 'package:examaker/services/exam_moment_service.dart';
 import 'package:examaker/services/exam_timer.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class ExamenPage extends StatefulWidget {
   const ExamenPage({Key? key}) : super(key: key);
@@ -18,6 +21,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
 
   Examen examen = AppData().currentExam!;
   List<vraagWidget> vragen = [];
+  ExamenMomentService service = ExamenMomentService();
+  Uuid uuid = Uuid();
 
   int outOfFocusCount = 0;
 
@@ -82,8 +87,27 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
 
   turnIn(Examen examen) {
     //TODO: valideer examen en stuur deze naar firebase
-    vragen.forEach((vraag) {
-      log(vraag.answerController.text);
-    });
+    // vragen.forEach((vraag) {
+    //   log(vraag.answerController.text);
+    // });
+
+    ExamenMoment examenMoment = ExamenMoment(
+        uuid.v4(),
+        appData.loggedInStudent!.studentNumberToId(),
+        examen.id!,
+        1,
+        1,
+        "Adres",
+        outOfFocusCount);
+
+    List<Map<String, String>> antwoorden = [];
+    for (var vraag in vragen) {
+      antwoorden.add({
+        "vraag": vraag.vraag.vraag,
+        "antwoord": vraag.answerController.text
+      });
+    }
+    examenMoment.antwoorden = antwoorden;
+    service.addExamenMoment(examenMoment);
   }
 }
