@@ -65,7 +65,15 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
               ),
             ],
           )),
-      floatingActionButton: FloatingActionButton(onPressed: turnIn(examen)),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.check),
+          hoverColor: Colors.green[200],
+          highlightElevation: 50,
+          splashColor: Colors.red,
+          hoverElevation: 50,
+          tooltip: "Dien in",
+          foregroundColor: Colors.white,
+          onPressed: turnIn(examen)),
     );
   }
 

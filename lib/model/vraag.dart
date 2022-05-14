@@ -60,7 +60,7 @@ class Vraag {
         ));
       default:
         return (Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(14.0),
             child: Column(
               children: [
                 Text(vraag),
