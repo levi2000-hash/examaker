@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 import 'package:uuid/uuid.dart';
 
-class createExam extends StatefulWidget {
-  const createExam({Key? key}) : super(key: key);
+class CreateExam extends StatefulWidget {
+  const CreateExam({Key? key}) : super(key: key);
 
   @override
-  State<createExam> createState() => _createExamState();
+  State<CreateExam> createState() => _CreateExamState();
 }
 
-class _createExamState extends State<createExam> {
+class _CreateExamState extends State<CreateExam> {
   final _formKey = GlobalKey<FormState>();
   late String examTitel, examVak, examId;
   ExamService examService = ExamService();
