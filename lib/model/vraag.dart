@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examaker/services/validator.dart';
 import 'package:flutter/material.dart';
 
 class Vraag {
@@ -8,6 +9,8 @@ class Vraag {
   List<String> keuzes;
   String antwoord;
   int punten;
+
+  final answerController = TextEditingController();
 
   Vraag(this.vraag, this.vraagSoort, this.keuzes, this.antwoord, this.punten)
       : id = null;
@@ -56,9 +59,17 @@ class Vraag {
           ],
         ));
       default:
-        return (Column(
-          children: [Text(vraag), TextField()],
-        ));
+        return (Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Text(vraag),
+                TextFormField(
+                  controller: answerController,
+                  validator: (value) => Validator.validateAnswer(answer: value),
+                )
+              ],
+            )));
     }
   }
 }

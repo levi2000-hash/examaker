@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:examaker/model/examen.dart';
 import 'package:examaker/model/vraag.dart';
+import 'package:examaker/services/exam_timer.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,14 +49,29 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final examKey = GlobalKey<FormState>();
     return Scaffold(
-        appBar: AppBar(
-          title: Text(appData.currentExam!.naam),
-        ),
-        body: Column(
-          children: examen.vragen.map((vraag) {
-            return vraag.build(context);
-          }).toList(),
-        ));
+      appBar: AppBar(
+        title: Text(appData.currentExam!.naam),
+      ),
+      body: Form(
+          key: examKey,
+          child: Expanded(
+              child: Column(
+            children: [
+              ExamTimer(4200),
+              Column(
+                children: examen.vragen.map((vraag) {
+                  return vraag.build(context);
+                }).toList(),
+              ),
+            ],
+          ))),
+      floatingActionButton: FloatingActionButton(onPressed: turnIn(examen)),
+    );
+  }
+
+  turnIn(Examen examen) {
+    //TODO: valideer examen en stuur deze naar firebase
   }
 }
