@@ -4,7 +4,6 @@ import 'package:examaker/model/examen.dart';
 import 'package:examaker/model/vraag.dart';
 import 'package:examaker/services/exam_timer.dart';
 import 'package:examaker/singleton/app_data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ExamenPage extends StatefulWidget {
@@ -56,8 +55,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
       ),
       body: Form(
           key: examKey,
-          child: Expanded(
-              child: Column(
+          child: Column(
             children: [
               ExamTimer(4200),
               Column(
@@ -66,7 +64,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
                 }).toList(),
               ),
             ],
-          ))),
+          )),
       floatingActionButton: FloatingActionButton(onPressed: turnIn(examen)),
     );
   }
