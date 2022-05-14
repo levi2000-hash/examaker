@@ -10,8 +10,6 @@ class Vraag {
   String antwoord;
   int punten;
 
-  final answerController = TextEditingController();
-
   Vraag(this.vraag, this.vraagSoort, this.keuzes, this.antwoord, this.punten)
       : id = null;
 
@@ -44,23 +42,39 @@ class Vraag {
       "punten": punten
     };
   }
+}
 
+class vraagWidget extends StatefulWidget {
+  vraagWidget({Key? key, required this.vraag}) : super(key: key);
+
+  final Vraag vraag;
+  final TextEditingController answerController = TextEditingController();
+
+  @override
+  State<vraagWidget> createState() => _vraagWidgetState();
+}
+
+class _vraagWidgetState extends State<vraagWidget> {
+  String? _keuze = null;
+  @override
   Widget build(BuildContext context) {
-    switch (vraagSoort) {
+    switch (widget.vraag.vraagSoort) {
       case VraagSoort.multipleChoice:
         String? _keuze = "";
         return (Column(
           children: [
-            Text(vraag),
+            Text(widget.vraag.vraag),
             Column(
-              children: keuzes.map((keuze) {
+              children: widget.vraag.keuzes.map((keuze) {
                 return ListTile(
                   title: Text(keuze),
                   leading: Radio<String>(
                     value: keuze,
-                    groupValue: _keuze,
+                    groupValue: this._keuze,
                     onChanged: (String? value) {
-                      _keuze = value;
+                      setState(() {
+                        this._keuze = value;
+                      });
                     },
                   ),
                 );
@@ -74,9 +88,9 @@ class Vraag {
             margin: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Text(vraag),
+                Text(widget.vraag.vraag),
                 TextFormField(
-                  controller: answerController,
+                  controller: widget.answerController,
                   validator: (value) => Validator.validateAnswer(answer: value),
                 )
               ],

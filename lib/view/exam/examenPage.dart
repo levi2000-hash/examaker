@@ -17,6 +17,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   final bool isComplete = false;
 
   Examen examen = AppData().currentExam!;
+  List<vraagWidget> vragen = [];
 
   int outOfFocusCount = 0;
 
@@ -49,6 +50,11 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final examKey = GlobalKey<FormState>();
+    vragen = examen.vragen.map((vraag) {
+      return vraagWidget(
+        vraag: vraag,
+      );
+    }).toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(appData.currentExam!.naam),
@@ -60,25 +66,24 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
                 children: [
                   ExamTimer(4200),
                   Column(
-                    children: examen.vragen.map((vraag) {
-                      return vraag.build(context);
-                    }).toList(),
+                    children: vragen,
                   ),
                 ],
               ))),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.check),
-          hoverColor: Colors.green[200],
-          highlightElevation: 50,
           splashColor: Colors.red,
           hoverElevation: 50,
           tooltip: "Dien in",
           foregroundColor: Colors.white,
-          onPressed: turnIn(examen)),
+          onPressed: () => turnIn(examen)),
     );
   }
 
   turnIn(Examen examen) {
     //TODO: valideer examen en stuur deze naar firebase
+    vragen.forEach((vraag) {
+      log(vraag.answerController.text);
+    });
   }
 }
