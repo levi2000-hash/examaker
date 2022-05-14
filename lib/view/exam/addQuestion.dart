@@ -12,6 +12,10 @@ class _addQuestionState extends State<addQuestion> {
   final _formKey = GlobalKey<FormState>();
   late String vraag, optie1, optie2, optie3, optie4;
 
+  uploadExamData(){
+      
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +83,7 @@ class _addQuestionState extends State<addQuestion> {
                     width: MediaQuery.of(context).size.width / 2 - 36,
                     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                     decoration: BoxDecoration(
-                        color: Colors.amber,
+                        color: Colors.green,
                         borderRadius: BorderRadius.circular(30)),
                     child: Text(
                       "Indienen",
@@ -99,7 +103,7 @@ class _addQuestionState extends State<addQuestion> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                       decoration: BoxDecoration(
-                          color: Colors.amber,
+                          color: Colors.green,
                           borderRadius: BorderRadius.circular(30)),
                       child: Text(
                         "vraag toevoegen",
