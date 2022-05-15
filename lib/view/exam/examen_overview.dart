@@ -24,7 +24,7 @@ class _ExamenOverviewState extends State<ExamenOverview> {
     examService.getExamen().then((value) {
       setState(() {
         examen = value;
-        AppData().currentExam = value;
+        appData.currentExam = value;
         _isLoading = false;
       });
     });
@@ -39,7 +39,7 @@ class _ExamenOverviewState extends State<ExamenOverview> {
         ),
         body: _isLoading
             ? LoadingScreen.showLoading()
-            : examen != null
+            : appData.currentExam != null
                 ? Container(
                     padding: const EdgeInsets.all(32),
                     child: Center(
@@ -77,7 +77,9 @@ class _ExamenOverviewState extends State<ExamenOverview> {
                         ),
                       ),
                     )))
-                : Container(),
+                : const Center(
+                    child: Text("Voeg een examen toe via de knop onderaan."),
+                  ),
         floatingActionButton: FloatingActionButton(
             onPressed: toCreateExam, child: const Icon(Icons.add)));
   }
@@ -96,10 +98,11 @@ class _ExamenOverviewState extends State<ExamenOverview> {
                 actions: [
                   ElevatedButton(
                       onPressed: (() {
-                        examService.deleteExams().then((value) {
-                          examMomentService
-                              .deleteMoments(AppData().currentExam!.id!)
-                              .then((value) {
+                        examMomentService
+                            .deleteMoments(appData.currentExam!.id!)
+                            .then((value) {
+                          examService.deleteExams().then((value) {
+                            appData.currentExam = null;
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => const CreateExam()));
                           });

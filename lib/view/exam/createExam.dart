@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'package:examaker/model/examen.dart';
 import 'package:examaker/model/vraag.dart';
 import 'package:examaker/services/exam_service.dart';
-import 'package:examaker/view/exam/addQuestion.dart';
+import 'package:examaker/singleton/app_data.dart';
+import 'package:examaker/view/exam/exam_questions.dart';
 import 'package:examaker/view/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:random_string/random_string.dart';
 import 'package:uuid/uuid.dart';
 
 class CreateExam extends StatefulWidget {
@@ -18,18 +18,16 @@ class CreateExam extends StatefulWidget {
 
 class _CreateExamState extends State<CreateExam> {
   final _formKey = GlobalKey<FormState>();
-  late String examTitel, examVak, examId;
+  late String examTitel, examVak, examDuur;
   ExamService examService = ExamService();
 
   bool _isLoading = false;
 
-  createExamOnline() async {
+  createExam() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
-
-      examId = randomAlphaNumeric(16);
 
       Uuid uuid = const Uuid();
       Examen examen = Examen(uuid.v4(), [], examTitel, examVak, 0);
@@ -37,8 +35,9 @@ class _CreateExamState extends State<CreateExam> {
       await examService.addExam(examen).then((value) {
         setState(() {
           _isLoading = false;
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => addQuestion()));
+          appData.currentExam = examen;
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const ExamQuestions()));
         });
       });
     }
@@ -56,10 +55,10 @@ class _CreateExamState extends State<CreateExam> {
     vragen.add(Vraag.multipleChoice(uuid.v4(), "A, B of C?", keuzes, "c", 5));
     vragen.add(Vraag.open(uuid.v4(), "Open vraag", "Ja", 1));
 
-    Examen examen = Examen("testExamen", vragen, "TestExamen", "Flutter", 120);
+    Examen examen =
+        Examen("testExamen2", vragen, "TestExamen2", "Flutter", 120);
 
     await examService.addExam(examen);
-    log("Done");
   }
 
   @override
@@ -98,8 +97,17 @@ class _CreateExamState extends State<CreateExam> {
                           examVak = val;
                         },
                       ),
+                      TextFormField(
+                        validator: (val) => val!.isEmpty ? "Geef duur " : null,
+                        // ignore: prefer_const_constructors
+                        decoration:
+                            const InputDecoration(hintText: "Duur in minuten"),
+                        onChanged: (val) {
+                          examDuur = val;
+                        },
+                      ),
                       ElevatedButton(
-                          onPressed: testExamen,
+                          onPressed: createExam,
                           child: const Text("Creër Examen"))
                     ],
                   ),
