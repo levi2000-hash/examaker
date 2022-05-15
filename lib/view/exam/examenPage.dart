@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:examaker/view/widgets/loading_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:examaker/locationView.dart';
 import 'package:examaker/model/examen.dart';
 import 'package:examaker/model/examenMoment.dart';
 import 'package:examaker/model/vraag.dart';
@@ -32,6 +32,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   ExamenMomentService service = ExamenMomentService();
   Uuid uuid = Uuid();
 
+  bool _isLoading = true;
   int outOfFocusCount = 0;
 
   @override
@@ -47,8 +48,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    () => _getCurrentLocation();
     super.initState();
+    _getCurrentLocation();
     WidgetsBinding.instance?.addObserver(this);
     for (var vraag in examen.vragen) {
       log(vraag.vraag);
@@ -73,17 +74,19 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
       appBar: AppBar(
         title: Text(appData.currentExam!.naam),
       ),
-      body: SingleChildScrollView(
-          child: Form(
-              key: examKey,
-              child: Column(
-                children: [
-                  ExamTimer(4200),
-                  Column(
-                    children: vraagWidgets,
-                  ),
-                ],
-              ))),
+      body: _isLoading
+          ? LoadingScreen.showLoading()
+          : SingleChildScrollView(
+              child: Form(
+                  key: examKey,
+                  child: Column(
+                    children: [
+                      ExamTimer(4200),
+                      Column(
+                        children: vraagWidgets,
+                      ),
+                    ],
+                  ))),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.check),
           splashColor: Colors.red,
@@ -99,9 +102,9 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
         uuid.v4(),
         appData.loggedInStudent!.studentNumberToId(),
         examen.id!,
-        1,
-        1,
-        "Adres",
+        _currentPosition!.longitude,
+        _currentPosition!.latitude,
+        _currentAddress,
         outOfFocusCount);
 
     List<Map<String, String>> antwoorden = [];
@@ -122,10 +125,6 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
     }
 
     examenMoment.antwoorden = antwoorden;
-    examenMoment.lat = _currentPosition!.latitude;
-    examenMoment.lon = _currentPosition!.longitude;
-    examenMoment.adres = _currentAddress;
-    examenMoment.outOfFocusCount = outOfFocusCount;
     examenMoment.finished = true;
     service.addExamenMoment(examenMoment);
   }
@@ -149,8 +148,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
 
             setState(() {
               _currentAddress = json["display_name"];
-              mapController.changeLocation(GeoPoint(
-                  latitude: position.latitude, longitude: position.longitude));
+              _currentPosition = position;
+              _isLoading = false;
             });
           });
         });
