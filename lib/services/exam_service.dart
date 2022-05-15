@@ -76,6 +76,7 @@ class ExamService {
         .withConverter(
             fromFirestore: Examen.fromFirestore,
             toFirestore: (Examen examen, _) => examen.toFirestore())
+        .where("naam", isEqualTo: "TestExamen") //TODO: Delete this line
         .get();
 
     //Get first Exam. There can only be one exam

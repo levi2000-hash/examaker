@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:http/http.dart' as http;
+import 'package:examaker/locationView.dart';
 import 'package:examaker/model/examen.dart';
 import 'package:examaker/model/examenMoment.dart';
 import 'package:examaker/model/vraag.dart';
@@ -7,6 +10,8 @@ import 'package:examaker/services/exam_moment_service.dart';
 import 'package:examaker/services/exam_timer.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:uuid/uuid.dart';
 
 class ExamenPage extends StatefulWidget {
@@ -18,6 +23,8 @@ class ExamenPage extends StatefulWidget {
 class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   late AppLifecycleState appState;
   final bool isComplete = false;
+  Position? _currentPosition;
+  String _currentAddress = "Getting location";
 
   Examen examen = AppData().currentExam!;
   List<vraagWidget> vraagWidgets = [];
@@ -40,6 +47,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    _getCurrentLocation();
     WidgetsBinding.instance?.addObserver(this);
     for (var vraag in examen.vragen) {
       log(vraag.vraag);
@@ -86,11 +94,6 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   }
 
   turnIn(Examen examen) {
-    //TODO: valideer examen en stuur deze naar firebase
-    // vragen.forEach((vraag) {
-    //   log(vraag.answerController.text);
-    // });
-
     ExamenMoment examenMoment = ExamenMoment(
         uuid.v4(),
         appData.loggedInStudent!.studentNumberToId(),
@@ -118,12 +121,57 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
     }
 
     examenMoment.antwoorden = antwoorden;
+    examenMoment.lat = _currentPosition!.latitude;
+    examenMoment.lon = _currentPosition!.longitude;
+    examenMoment.adres = _currentAddress;
+    examenMoment.outOfFocusCount = outOfFocusCount;
+    examenMoment.finished = true;
+    service.addExamenMoment(examenMoment);
+  }
 
-    for (var antw in antwoorden) {
-      log(antw["vraag"]!);
-      log(antw["antwoord"]!);
-    }
+  void _getCurrentLocation() async {
+    MapController mapController =
+        MapController(initMapWithUserPosition: true, initPosition: null);
+    _getLocationPermission().then((permission) {
+      if (permission) {
+        log("Got permission");
+        Geolocator.getCurrentPosition(
+                forceAndroidLocationManager: true,
+                desiredAccuracy: LocationAccuracy.best)
+            .then((position) {
+          http
+              .get(Uri.parse(
+                  "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
+                      position.latitude.toString() +
+                      "&lon=" +
+                      position.longitude.toString()))
+              .then((address) {
+            Map<String, dynamic> json = jsonDecode(address.body);
 
-    //service.addExamenMoment(examenMoment);
+            setState(() {
+              _currentAddress = json["display_name"];
+              mapController.changeLocation(GeoPoint(
+                  latitude: position.latitude, longitude: position.longitude));
+            });
+          });
+        });
+      } else {
+        log("No permission");
+      }
+    });
+  }
+
+  Future<bool> _getLocationPermission() async {
+    return Geolocator.checkPermission().then((LocationPermission result) {
+      if (result == LocationPermission.denied ||
+          result == LocationPermission.deniedForever) {
+        return Geolocator.requestPermission().then((value) {
+          return (value != LocationPermission.denied &&
+              value != LocationPermission.deniedForever);
+        });
+      } else {
+        return true;
+      }
+    });
   }
 }
