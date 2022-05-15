@@ -4,8 +4,8 @@ class ExamenMoment {
   String? id;
   String studentId;
   String examenId;
-  int lon;
-  int lat;
+  double lon;
+  double lat;
   String adres;
   int outOfFocusCount;
   bool finished;
