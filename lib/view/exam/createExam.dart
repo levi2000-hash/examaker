@@ -48,7 +48,11 @@ class _CreateExamState extends State<CreateExam> {
     Uuid uuid = const Uuid();
     List<Vraag> vragen = [];
     vragen.add(Vraag.code(uuid.v4(), "Schrijf een for loop", 10));
-    List<String> keuzes = ["a", "b", "c"];
+    List<Map<String, dynamic>> keuzes = [
+      {"keuze": "a"},
+      {"keuze": "b"},
+      {"keuze": "c"},
+    ];
     vragen.add(Vraag.multipleChoice(uuid.v4(), "A, B of C?", keuzes, "c", 5));
     vragen.add(Vraag.open(uuid.v4(), "Open vraag", "Ja", 1));
 

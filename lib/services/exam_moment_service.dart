@@ -84,4 +84,16 @@ class ExamenMomentService {
 
     return momenten;
   }
+
+  Future<void> deleteMoments(String examId) async {
+    QuerySnapshot<Map<String, dynamic>> momentDocs = await FirebaseFirestore
+        .instance
+        .collection("exam")
+        .where("examenId", isEqualTo: examId)
+        .get();
+
+    for (var docs in momentDocs.docs) {
+      docs.reference.delete();
+    }
+  }
 }

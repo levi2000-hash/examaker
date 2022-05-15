@@ -1,7 +1,6 @@
 import 'package:examaker/view/admin/admin_studentOverview.dart';
 import 'package:examaker/view/admin/change_password.dart';
 import 'package:examaker/services/auth_service.dart';
-import 'package:examaker/view/exam/createExam.dart';
 import 'package:examaker/view/exam/examen_overview.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +41,7 @@ class _AdminHomeState extends State<AdminHome> {
                       MaterialPageRoute(
                           builder: (context) => const ExamenOverview()));
                 },
-                child: const Text("Examen maken"),
+                child: const Text("Examenbeheer"),
               ),
               const ElevatedButton(
                 onPressed: null,

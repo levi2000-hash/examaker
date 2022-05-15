@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examaker/services/validator.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,7 @@ class Vraag {
   String? id;
   String vraag;
   String vraagSoort;
-  List<String> keuzes;
+  List<Map<String, dynamic>> keuzes;
   String antwoord;
   int punten;
 
@@ -55,25 +57,24 @@ class vraagWidget extends StatefulWidget {
 }
 
 class _vraagWidgetState extends State<vraagWidget> {
-  String? _keuze = null;
+  String? _keuze;
   @override
   Widget build(BuildContext context) {
     switch (widget.vraag.vraagSoort) {
       case VraagSoort.multipleChoice:
-        String? _keuze = "";
         return (Column(
           children: [
             Text(widget.vraag.vraag),
             Column(
               children: widget.vraag.keuzes.map((keuze) {
                 return ListTile(
-                  title: Text(keuze),
+                  title: Text(keuze["keuze"]),
                   leading: Radio<String>(
-                    value: keuze,
-                    groupValue: this._keuze,
+                    value: keuze["keuze"],
+                    groupValue: _keuze,
                     onChanged: (String? value) {
                       setState(() {
-                        this._keuze = value;
+                        _keuze = value;
                       });
                     },
                   ),
@@ -96,6 +97,14 @@ class _vraagWidgetState extends State<vraagWidget> {
               ],
             )));
     }
+  }
+
+  List<Widget> createMCList() {
+    List<Widget> widgets = [];
+    for (var keuze in widget.vraag.keuzes) {
+      log(keuze.toString());
+    }
+    return widgets;
   }
 }
 
