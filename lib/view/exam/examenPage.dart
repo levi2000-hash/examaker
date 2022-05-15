@@ -25,7 +25,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   final bool isComplete = false;
   Position? _currentPosition;
   String _currentAddress = "Getting location";
-
+  MapController mapController =
+      MapController(initMapWithUserPosition: true, initPosition: null);
   Examen examen = AppData().currentExam!;
   List<vraagWidget> vraagWidgets = [];
   ExamenMomentService service = ExamenMomentService();
@@ -46,8 +47,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    () => _getCurrentLocation();
     super.initState();
-    _getCurrentLocation();
     WidgetsBinding.instance?.addObserver(this);
     for (var vraag in examen.vragen) {
       log(vraag.vraag);
@@ -130,8 +131,6 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   }
 
   void _getCurrentLocation() async {
-    MapController mapController =
-        MapController(initMapWithUserPosition: true, initPosition: null);
     _getLocationPermission().then((permission) {
       if (permission) {
         log("Got permission");

@@ -33,6 +33,36 @@ class _LocationViewState extends State<LocationView> {
     });
   }
 
+  void _getCurrentLocation() async {
+    _getLocationPermission().then((permission) {
+      if (permission) {
+        log("Got permission");
+        Geolocator.getCurrentPosition(
+                forceAndroidLocationManager: true,
+                desiredAccuracy: LocationAccuracy.best)
+            .then((position) {
+          http
+              .get(Uri.parse(
+                  "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
+                      position.latitude.toString() +
+                      "&lon=" +
+                      position.longitude.toString()))
+              .then((address) {
+            Map<String, dynamic> json = jsonDecode(address.body);
+
+            setState(() {
+              _currentAddress = json["display_name"];
+              mapController.changeLocation(GeoPoint(
+                  latitude: position.latitude, longitude: position.longitude));
+            });
+          });
+        });
+      } else {
+        log("No permission");
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
