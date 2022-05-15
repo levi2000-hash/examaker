@@ -20,7 +20,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   final bool isComplete = false;
 
   Examen examen = AppData().currentExam!;
-  List<vraagWidget> vragen = [];
+  List<vraagWidget> vraagWidgets = [];
   ExamenMomentService service = ExamenMomentService();
   Uuid uuid = Uuid();
 
@@ -55,7 +55,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final examKey = GlobalKey<FormState>();
-    vragen = examen.vragen.map((vraag) {
+    vraagWidgets = examen.vragen.map((vraag) {
       return vraagWidget(
         vraag: vraag,
       );
@@ -71,7 +71,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
                 children: [
                   ExamTimer(4200),
                   Column(
-                    children: vragen,
+                    children: vraagWidgets,
                   ),
                 ],
               ))),
@@ -101,13 +101,29 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
         outOfFocusCount);
 
     List<Map<String, String>> antwoorden = [];
-    for (var vraag in vragen) {
-      antwoorden.add({
-        "vraag": vraag.vraag.vraag,
-        "antwoord": vraag.answerController.text
-      });
+    for (var vraagWidget in vraagWidgets) {
+      var antwoord;
+      if (vraagWidget.vraag.vraagSoort == VraagSoort.multipleChoice) {
+        antwoord = {
+          "vraag": vraagWidget.vraag.vraag,
+          "antwoord": vraagWidget.keuze!
+        };
+      } else {
+        antwoord = {
+          "vraag": vraagWidget.vraag.vraag,
+          "antwoord": vraagWidget.answerController.text
+        };
+      }
+      antwoorden.add(antwoord);
     }
+
     examenMoment.antwoorden = antwoorden;
-    service.addExamenMoment(examenMoment);
+
+    for (var antw in antwoorden) {
+      log(antw["vraag"]!);
+      log(antw["antwoord"]!);
+    }
+
+    //service.addExamenMoment(examenMoment);
   }
 }

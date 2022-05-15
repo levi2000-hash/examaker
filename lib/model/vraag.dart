@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examaker/services/validator.dart';
 import 'package:flutter/material.dart';
@@ -51,13 +49,13 @@ class vraagWidget extends StatefulWidget {
 
   final Vraag vraag;
   final TextEditingController answerController = TextEditingController();
+  String? keuze = "";
 
   @override
   State<vraagWidget> createState() => _vraagWidgetState();
 }
 
 class _vraagWidgetState extends State<vraagWidget> {
-  String? _keuze;
   @override
   Widget build(BuildContext context) {
     switch (widget.vraag.vraagSoort) {
@@ -71,10 +69,10 @@ class _vraagWidgetState extends State<vraagWidget> {
                   title: Text(keuze["keuze"]),
                   leading: Radio<String>(
                     value: keuze["keuze"],
-                    groupValue: _keuze,
+                    groupValue: widget.keuze,
                     onChanged: (String? value) {
                       setState(() {
-                        _keuze = value;
+                        widget.keuze = value;
                       });
                     },
                   ),
@@ -97,14 +95,6 @@ class _vraagWidgetState extends State<vraagWidget> {
               ],
             )));
     }
-  }
-
-  List<Widget> createMCList() {
-    List<Widget> widgets = [];
-    for (var keuze in widget.vraag.keuzes) {
-      log(keuze.toString());
-    }
-    return widgets;
   }
 }
 
