@@ -89,6 +89,7 @@ class _vraagWidgetState extends State<vraagWidget> {
               children: [
                 Text(widget.vraag.vraag),
                 TextFormField(
+                  maxLines: 5,
                   controller: widget.answerController,
                   validator: (value) => Validator.validateAnswer(answer: value),
                 )
