@@ -3,6 +3,7 @@ import 'package:examaker/services/exam_moment_service.dart';
 import 'package:examaker/services/exam_service.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:examaker/view/exam/createExam.dart';
+import 'package:examaker/view/exam/exam_questions.dart';
 import 'package:examaker/view/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -60,16 +61,19 @@ class _ExamenOverviewState extends State<ExamenOverview> {
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: ElevatedButton(
-                                        onPressed: null,
-                                        child: Text("Bewerken")),
+                                        onPressed: () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ExamQuestions()));
+                                        },
+                                        child: const Text("Bewerken")),
                                   ),
-                                  ElevatedButton(
-                                      onPressed: null,
-                                      child: Text("Verwijderen"))
                                 ],
                               ),
                             ],

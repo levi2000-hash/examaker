@@ -1,4 +1,5 @@
 import 'package:examaker/model/examen.dart';
+import 'package:examaker/model/examenMoment.dart';
 import 'package:examaker/model/student.dart';
 
 class AppData {
@@ -7,6 +8,8 @@ class AppData {
   Student? loggedInStudent;
 
   Examen? currentExam;
+
+  ExamenMoment? currentMoment;
 
   factory AppData() {
     return _appData;

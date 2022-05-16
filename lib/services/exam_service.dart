@@ -44,10 +44,7 @@ class ExamService {
 
   Future<void> deleteExams() async {
     QuerySnapshot<Map<String, dynamic>> examenDocs =
-        await FirebaseFirestore.instance
-            .collection("exam")
-            .where("naam", isNotEqualTo: "TestExamen") //TODO: Delete this line
-            .get();
+        await FirebaseFirestore.instance.collection("exam").get();
 
     for (var docs in examenDocs.docs) {
       docs.reference.delete();
@@ -79,7 +76,6 @@ class ExamService {
         .withConverter(
             fromFirestore: Examen.fromFirestore,
             toFirestore: (Examen examen, _) => examen.toFirestore())
-        .where("naam", isNotEqualTo: "TestExamen") //TODO: Delete this line
         .get();
 
     //Get first Exam. There can only be one exam

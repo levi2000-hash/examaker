@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:examaker/view/student/studentHome.dart';
 import 'package:examaker/view/widgets/loading_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:examaker/model/examen.dart';
@@ -25,9 +26,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   final bool isComplete = false;
   Position? _currentPosition;
   String _currentAddress = "Getting location";
-  MapController mapController =
-      MapController(initMapWithUserPosition: true, initPosition: null);
-  Examen examen = AppData().currentExam!;
+
+  Examen examen = appData.currentExam!;
   List<vraagWidget> vraagWidgets = [];
   ExamenMomentService service = ExamenMomentService();
   Uuid uuid = Uuid();
@@ -50,10 +50,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     _getCurrentLocation();
+    //_isLoading = false;
     WidgetsBinding.instance?.addObserver(this);
-    for (var vraag in examen.vragen) {
-      log(vraag.vraag);
-    }
   }
 
   @override
@@ -71,30 +69,34 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
       );
     }).toList();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(appData.currentExam!.naam),
-      ),
-      body: _isLoading
-          ? LoadingScreen.showLoading()
-          : SingleChildScrollView(
-              child: Form(
-                  key: examKey,
-                  child: Column(
-                    children: [
-                      ExamTimer(4200),
-                      Column(
-                        children: vraagWidgets,
-                      ),
-                    ],
-                  ))),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.check),
-          splashColor: Colors.red,
-          hoverElevation: 50,
-          tooltip: "Dien in",
-          foregroundColor: Colors.white,
-          onPressed: () => turnIn(examen)),
-    );
+        appBar: AppBar(
+          title: Text(appData.currentExam!.naam),
+        ),
+        body: _isLoading
+            ? LoadingScreen.showLoading("Locatie bepalen...")
+            : SingleChildScrollView(
+                child: Form(
+                    key: examKey,
+                    child: Column(
+                      children: [
+                        ExamTimer(appData.currentExam!.duur * 60),
+                        Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: Column(
+                            children: vraagWidgets,
+                          ),
+                        ),
+                      ],
+                    ))),
+        floatingActionButton: _isLoading
+            ? null
+            : FloatingActionButton(
+                child: const Icon(Icons.check),
+                splashColor: Colors.red,
+                hoverElevation: 50,
+                tooltip: "Dien in",
+                foregroundColor: Colors.white,
+                onPressed: () => turnIn(examen)));
   }
 
   turnIn(Examen examen) {
@@ -126,7 +128,8 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
 
     examenMoment.antwoorden = antwoorden;
     examenMoment.finished = true;
-    service.addExamenMoment(examenMoment);
+    service.addExamenMoment(examenMoment).then((value) => Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const StudentHome())));
   }
 
   void _getCurrentLocation() async {
@@ -135,7 +138,7 @@ class _ExamenPageState extends State<ExamenPage> with WidgetsBindingObserver {
         log("Got permission");
         Geolocator.getCurrentPosition(
                 forceAndroidLocationManager: true,
-                desiredAccuracy: LocationAccuracy.best)
+                desiredAccuracy: LocationAccuracy.low)
             .then((position) {
           http
               .get(Uri.parse(

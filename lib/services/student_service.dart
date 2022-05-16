@@ -29,6 +29,19 @@ class StudentService {
     });
   }
 
+  Future<Student> getById(String studentId) async {
+    final docRef = FirebaseFirestore.instance
+        .collection("students")
+        .withConverter(
+            fromFirestore: Student.fromFirestore,
+            toFirestore: (Student student, _) => student.toFirestore())
+        .doc(studentId);
+
+    return docRef.get().then((value) {
+      return value.data()!;
+    });
+  }
+
   void save(List<Student> students) {
     for (var student in students) {
       FirebaseFirestore.instance
@@ -36,7 +49,7 @@ class StudentService {
           .withConverter(
               fromFirestore: Student.fromFirestore,
               toFirestore: (Student student, _) => student.toFirestore())
-          .doc(generateStudentDoc(student))
+          .doc(student.studentNumberToId())
           .set(student, SetOptions(merge: true));
     }
   }
@@ -50,12 +63,8 @@ class StudentService {
           .withConverter(
               fromFirestore: Student.fromFirestore,
               toFirestore: (Student student, _) => student.toFirestore())
-          .doc(generateStudentDoc(student))
+          .doc(student.studentNumberToId())
           .delete();
     }
-  }
-
-  String generateStudentDoc(Student student) {
-    return student.studentNumber + "@ap.be";
   }
 }

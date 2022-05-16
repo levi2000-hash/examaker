@@ -1,17 +1,17 @@
 import 'package:examaker/view/homePage.dart';
-import 'package:examaker/view/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 class ExamTimer extends StatelessWidget {
   final int timeInSeconds;
-  ExamTimer(this.timeInSeconds);
+
+  const ExamTimer(this.timeInSeconds, {Key? key}) : super(key: key);
 
   onEnd(BuildContext context) {
     print("Exam finished");
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomePage()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
   @override
@@ -29,6 +29,7 @@ class ExamTimer extends StatelessWidget {
     return CountdownTimer(
       controller: controller,
       endTime: endTime,
+      textStyle: const TextStyle(fontSize: 20),
       onEnd: () => {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const HomePage()))

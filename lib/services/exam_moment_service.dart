@@ -28,7 +28,7 @@ class ExamenMomentService {
     }
   }
 
-  Future<ExamenMoment> getExamenMomentByStudentIdAndExamId(
+  Future<ExamenMoment?> getExamenMomentByStudentIdAndExamId(
       String studentId, String examId) async {
     QuerySnapshot<ExamenMoment> examenMomentDocs = await FirebaseFirestore
         .instance
@@ -40,6 +40,10 @@ class ExamenMomentService {
         .where("studentId", isEqualTo: studentId)
         .where("examenId", isEqualTo: examId)
         .get();
+
+    if (examenMomentDocs.docs.isEmpty) {
+      return null;
+    }
 
     ExamenMoment examenMoment = examenMomentDocs.docs[0].data();
     examenMoment.id = examenMomentDocs.docs[0].id;

@@ -1,3 +1,4 @@
+import 'package:examaker/view/admin/admin_results.dart';
 import 'package:examaker/view/admin/admin_studentOverview.dart';
 import 'package:examaker/view/admin/change_password.dart';
 import 'package:examaker/services/auth_service.dart';
@@ -43,8 +44,11 @@ class _AdminHomeState extends State<AdminHome> {
                 },
                 child: const Text("Examenbeheer"),
               ),
-              const ElevatedButton(
-                onPressed: null,
+              ElevatedButton(
+                onPressed: () => {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ResultPage()))
+                },
                 child: Text("Resultaten"),
               ),
               ElevatedButton(

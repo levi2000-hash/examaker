@@ -18,7 +18,8 @@ class CreateExam extends StatefulWidget {
 
 class _CreateExamState extends State<CreateExam> {
   final _formKey = GlobalKey<FormState>();
-  late String examTitel, examVak, examDuur;
+  late String examTitel, examVak;
+  late int examDuur;
   ExamService examService = ExamService();
 
   bool _isLoading = false;
@@ -30,7 +31,7 @@ class _CreateExamState extends State<CreateExam> {
       });
 
       Uuid uuid = const Uuid();
-      Examen examen = Examen(uuid.v4(), [], examTitel, examVak, 0);
+      Examen examen = Examen(uuid.v4(), [], examTitel, examVak, examDuur);
 
       await examService.addExam(examen).then((value) {
         setState(() {
@@ -103,12 +104,15 @@ class _CreateExamState extends State<CreateExam> {
                         decoration:
                             const InputDecoration(hintText: "Duur in minuten"),
                         onChanged: (val) {
-                          examDuur = val;
+                          examDuur = int.parse(val);
                         },
                       ),
                       ElevatedButton(
                           onPressed: createExam,
-                          child: const Text("Creër Examen"))
+                          child: const Text("Creër Examen")),
+                      ElevatedButton(
+                          onPressed: testExamen,
+                          child: const Text("Test Examen"))
                     ],
                   ),
                 ),

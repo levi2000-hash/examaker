@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 
 class LoadingScreen {
-  static Widget showLoading() {
+  static Widget showLoading([String? text]) {
     return Container(
-      child: const Center(
-        child: CircularProgressIndicator(),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CircularProgressIndicator(),
+            ),
+            text != null ? Text(text) : const Text("Laden...")
+          ],
+        ),
       ),
     );
   }

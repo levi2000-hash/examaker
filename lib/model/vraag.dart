@@ -60,41 +60,62 @@ class _vraagWidgetState extends State<vraagWidget> {
   Widget build(BuildContext context) {
     switch (widget.vraag.vraagSoort) {
       case VraagSoort.multipleChoice:
-        return (Column(
-          children: [
-            Text(widget.vraag.vraag),
-            Column(
-              children: widget.vraag.keuzes.map((keuze) {
-                return ListTile(
-                  title: Text(keuze["keuze"]),
-                  leading: Radio<String>(
-                    value: keuze["keuze"],
-                    groupValue: widget.keuze,
-                    onChanged: (String? value) {
-                      setState(() {
-                        widget.keuze = value;
-                      });
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
-        ));
-      default:
-        return (Container(
-            padding: const EdgeInsets.all(16.0),
-            margin: const EdgeInsets.all(16.0),
-            child: Column(
+        return Card(
+          borderOnForeground: true,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: (Column(
               children: [
-                Text(widget.vraag.vraag),
-                TextFormField(
-                  maxLines: 5,
-                  controller: widget.answerController,
-                  validator: (value) => Validator.validateAnswer(answer: value),
-                )
+                Text(
+                  widget.vraag.vraag,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                Column(
+                  children: widget.vraag.keuzes.map((keuze) {
+                    return ListTile(
+                      title: Text(keuze["keuze"]),
+                      leading: Radio<String>(
+                        value: keuze["keuze"],
+                        groupValue: widget.keuze,
+                        onChanged: (String? value) {
+                          setState(() {
+                            widget.keuze = value;
+                          });
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
               ],
-            )));
+            )),
+          ),
+        );
+      default:
+        return Card(
+          borderOnForeground: true,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: (Container(
+                padding: const EdgeInsets.all(16.0),
+                margin: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      widget.vraag.vraag,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    TextFormField(
+                      maxLines: 5,
+                      controller: widget.answerController,
+                      validator: (value) =>
+                          Validator.validateAnswer(answer: value),
+                    )
+                  ],
+                ))),
+          ),
+        );
     }
   }
 }

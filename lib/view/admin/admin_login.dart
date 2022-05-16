@@ -105,7 +105,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           if (user != null) {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => AdminHome()));
+                                    builder: (context) => const AdminHome()));
                           }
                         }
                       },
@@ -116,16 +116,16 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                     child: const Text("Wachtwoord vergeten?"))
               ],
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  User? user = await FireAuth.signInUsingEmailPassword(
-                      email: "robbe.bevers@student.ap.be", password: "123456");
-                  if (user != null) {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => AdminHome()));
-                  }
-                },
-                child: const Text('bypass login'))
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       User? user = await FireAuth.signInUsingEmailPassword(
+            //           email: "robbe.bevers@student.ap.be", password: "123456");
+            //       if (user != null) {
+            //         Navigator.of(context).push(
+            //             MaterialPageRoute(builder: (context) => AdminHome()));
+            //       }
+            //     },
+            //     child: const Text('bypass login'))
           ]),
         ));
   }

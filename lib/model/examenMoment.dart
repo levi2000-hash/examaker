@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examaker/model/student.dart';
 
 class ExamenMoment {
   String? id;
@@ -10,6 +11,7 @@ class ExamenMoment {
   int outOfFocusCount;
   bool finished;
   List<Map<String, dynamic>>? antwoorden;
+  Student? student;
 
   //TODO: Antwoorden bijhouden
 
