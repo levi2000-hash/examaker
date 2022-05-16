@@ -3,6 +3,7 @@ import 'package:examaker/model/student.dart';
 import 'package:examaker/services/student_service.dart';
 import 'package:examaker/singleton/app_data.dart';
 import 'package:examaker/view/student/studentHome.dart';
+import 'package:examaker/view/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class StudentLoginPage extends StatefulWidget {
@@ -15,12 +16,15 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
   List<Student> students = [];
   StudentService studentService = StudentService();
 
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
     studentService.getAll().then((value) {
       setState(() {
         students = value;
+        _isLoading = false;
       });
     });
   }
@@ -32,47 +36,50 @@ class _StudentLoginPageState extends State<StudentLoginPage> {
         title: const Text("Examator - AP Hogeschool"),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          const Text("Selecteer uw account"),
-          Expanded(
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: students.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                        onTap: () => {
-                              FirebaseFirestore.instance
-                                  .collection("students")
-                                  .doc("${students[index].studentNumber}@ap.be")
-                                  .get()
-                                  .then((value) => {
-                                        if (value.exists)
-                                          {
-                                            appData.loggedInStudent =
-                                                Student.fromFirestore(
-                                                    value, null),
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            StudentHome()))
-                                          }
-                                      })
-                            },
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(students[index].name),
-                            Text(students[index].studentNumber),
-                          ],
-                        )),
-                  );
-                }),
-          ),
-        ],
-      ),
+      body: _isLoading
+          ? LoadingScreen.showLoading()
+          : Column(
+              children: [
+                const Text("Selecteer uw account"),
+                Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: students.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: ListTile(
+                              onTap: () => {
+                                    FirebaseFirestore.instance
+                                        .collection("students")
+                                        .doc(
+                                            "${students[index].studentNumber}@ap.be")
+                                        .get()
+                                        .then((value) => {
+                                              if (value.exists)
+                                                {
+                                                  appData.loggedInStudent =
+                                                      Student.fromFirestore(
+                                                          value, null),
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  StudentHome()))
+                                                }
+                                            })
+                                  },
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(students[index].name),
+                                  Text(students[index].studentNumber),
+                                ],
+                              )),
+                        );
+                      }),
+                ),
+              ],
+            ),
     );
   }
 }

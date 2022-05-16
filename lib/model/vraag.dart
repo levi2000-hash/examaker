@@ -1,29 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examaker/services/validator.dart';
 import 'package:flutter/material.dart';
 
 class Vraag {
   String? id;
   String vraag;
   String vraagSoort;
-  List<String> keuzes;
+  List<Map<String, dynamic>> keuzes;
   String antwoord;
   int punten;
 
   Vraag(this.vraag, this.vraagSoort, this.keuzes, this.antwoord, this.punten)
       : id = null;
 
-  Vraag.multipleChoice(this.vraag, this.keuzes, this.antwoord, this.punten)
-      : id = null,
-        vraagSoort = "MC";
+  Vraag.multipleChoice(
+      this.id, this.vraag, this.keuzes, this.antwoord, this.punten)
+      : vraagSoort = "MC";
 
-  Vraag.open(this.vraag, this.antwoord, this.punten)
-      : id = null,
-        keuzes = [],
+  Vraag.open(this.id, this.vraag, this.antwoord, this.punten)
+      : keuzes = [],
         vraagSoort = "OPEN";
 
-  Vraag.code(this.vraag, this.punten)
-      : id = null,
-        keuzes = [],
+  Vraag.code(this.id, this.vraag, this.punten)
+      : keuzes = [],
         antwoord = "",
         vraagSoort = "CODE";
 
@@ -43,24 +42,59 @@ class Vraag {
       "punten": punten
     };
   }
+}
 
+class vraagWidget extends StatefulWidget {
+  vraagWidget({Key? key, required this.vraag}) : super(key: key);
+
+  final Vraag vraag;
+  final TextEditingController answerController = TextEditingController();
+  String? keuze = "";
+
+  @override
+  State<vraagWidget> createState() => _vraagWidgetState();
+}
+
+class _vraagWidgetState extends State<vraagWidget> {
+  @override
   Widget build(BuildContext context) {
-    switch (vraagSoort) {
+    switch (widget.vraag.vraagSoort) {
       case VraagSoort.multipleChoice:
         return (Column(
           children: [
-            Text(vraag),
+            Text(widget.vraag.vraag),
             Column(
-              children: keuzes.map((keuze) {
-                return Text(keuze);
+              children: widget.vraag.keuzes.map((keuze) {
+                return ListTile(
+                  title: Text(keuze["keuze"]),
+                  leading: Radio<String>(
+                    value: keuze["keuze"],
+                    groupValue: widget.keuze,
+                    onChanged: (String? value) {
+                      setState(() {
+                        widget.keuze = value;
+                      });
+                    },
+                  ),
+                );
               }).toList(),
-            )
+            ),
           ],
         ));
       default:
-        return (Column(
-          children: [Text(vraag), TextField()],
-        ));
+        return (Container(
+            padding: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Text(widget.vraag.vraag),
+                TextFormField(
+                  maxLines: 5,
+                  controller: widget.answerController,
+                  validator: (value) => Validator.validateAnswer(answer: value),
+                )
+              ],
+            )));
     }
   }
 }

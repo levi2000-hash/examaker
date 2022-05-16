@@ -6,7 +6,7 @@ class AppData {
 
   Student? loggedInStudent;
 
-  Examen? currentExam = Examen(null, [], "Hardcoded Test", "Intro Mobile", 0);
+  Examen? currentExam;
 
   factory AppData() {
     return _appData;

@@ -1,19 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ExamenMoment {
+  String? id;
   String studentId;
   String examenId;
-  int lon;
-  int lat;
+  double lon;
+  double lat;
   String adres;
   int outOfFocusCount;
   bool finished;
+  List<Map<String, dynamic>>? antwoorden;
 
   //TODO: Antwoorden bijhouden
 
-  ExamenMoment(this.studentId, this.examenId, this.lon, this.lat, this.adres,
-      this.outOfFocusCount)
-      : finished = false;
+  ExamenMoment(this.id, this.studentId, this.examenId, this.lon, this.lat,
+      this.adres, this.outOfFocusCount)
+      : finished = false,
+        antwoorden = [];
 
   ExamenMoment.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options)
